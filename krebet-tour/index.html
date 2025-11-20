@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>KAVVIAR - Krebet Arts Village Virtual Reality</title>
+	<meta name="description" content="Virtual Tour Desa Wisata Krebet">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, shrink-to-fit=no">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<style>
+		/* --- PERBAIKAN UTAMA CSS --- */
+
+		/* Pastikan Modal & Backdrop Bootstrap SELALU di atas Canvas 3Sixty */
+		.modal {
+			z-index: 10055 !important;
+		}
+
+		.modal-backdrop {
+			z-index: 10050 !important;
+		}
+
+		/* Pastikan konten modal bisa menerima event klik (pointer) */
+		.modal-content {
+			pointer-events: auto !important;
+		}
+
+		/* --- END PERBAIKAN --- */
+
+		/* Scrollbar */
+		::-webkit-scrollbar {
+			width: 0.25em;
+			height: 0.25em;
+		}
+
+		::-webkit-scrollbar-track {
+			background: #2c3643;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: #8B4513;
+			transition: background .5s;
+		}
+
+		::-webkit-scrollbar-thumb:hover {
+			background: #A0522D;
+		}
+
+		body {
+			margin: 0;
+			overflow: hidden;
+			/* Penting agar tidak ada scroll ganda */
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		#container {
+			width: 100vw;
+			height: 100vh;
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 0;
+			transition: opacity 0.5s ease-in-out;
+			/* Canvas paling bawah */
+		}
+
+		/* UI OVERLAY */
+		.overlay-ui {
+			position: absolute;
+			z-index: 999;
+			pointer-events: none;
+			/* Biarkan tembus pandang, tapi aktifkan pointer pada child element */
+		}
+
+		.overlay-ui * {
+			pointer-events: auto;
+			/* Child element (tombol/link) bisa diklik */
+		}
+
+		/* NAVBAR */
+		.navbar-glass {
+			background: rgba(139, 69, 19, 0.85);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			width: 100%;
+			top: 0;
+			padding-right: 3rem;
+			padding-left: 3rem;
+		}
+
+		.navbar-brand {
+			color: #FFD700 !important;
+			font-weight: bold;
+			letter-spacing: 1px;
+		}
+
+		.navbar-glass .nav-link {
+			color: white !important;
+			transition: 0.3s;
+			margin: 0 10px;
+		}
+
+		.navbar-glass .nav-link:hover {
+			color: #FFD700 !important;
+			/* Warna Emas saat hover */
+			transform: scale(1.05);
+		}
+
+		.modal-body,
+		.modal-body p,
+		.modal-body h1,
+		.modal-body h2,
+		.modal-body h3,
+		.modal-body h4,
+		.modal-body h5,
+		.modal-body h6,
+		.modal-body li,
+		.modal-body span {
+			color: #212529 !important;
+			text-align: left;
+		}
+
+		.modal .nav-tabs .nav-link {
+			color: #495057 !important;
+			font-weight: 600;
+		}
+
+		.modal .nav-tabs .nav-link.active {
+			color: #000000 !important;
+			border-color: #dee2e6 #dee2e6 #fff;
+			background-color: #fff;
+		}
+
+		/* FLOATING BUTTONS */
+		.floating-controls {
+			position: absolute;
+			right: 20px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			z-index: 999;
+		}
+
+		.controls-center {
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.controls-bottom {
+			bottom: 20px;
+		}
+
+		.btn-circle {
+			width: 45px;
+			height: 45px;
+			border-radius: 50%;
+			background-color: #8B4513;
+			color: white;
+			border: 2px solid rgba(255, 255, 255, 0.5);
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+			transition: all 0.3s;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+		}
+
+		.btn-circle:hover {
+			background-color: #FFD700;
+			color: #8B4513;
+			transform: scale(1.1);
+		}
+
+		/* MODAL STYLING */
+		.modal-content {
+			background-color: rgba(255, 255, 255, 0.95);
+			border-radius: 15px;
+			border: none;
+		}
+
+		.modal-header {
+			background-color: #8B4513;
+			color: white;
+			border-top-left-radius: 15px;
+			border-top-right-radius: 15px;
+		}
+
+		.btn-close {
+			filter: invert(1);
+			opacity: 1;
+		}
+
+		/* MAPS OVERLAY */
+		#mapOverlay {
+			position: absolute;
+			bottom: 80px;
+			right: 80px;
+			width: 300px;
+			height: 200px;
+			border: 4px solid white;
+			border-radius: 10px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+			z-index: 998;
+			display: none;
+			overflow: hidden;
+		}
+
+		/* SWIPER SLIDE */
+		.swiper {
+			width: 100%;
+			height: 100%;
+			min-height: 300px;
+			/* Beri tinggi minimum */
+		}
+
+		.swiper-slide {
+			text-align: center;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: #000;
+		}
+
+		.card-product {
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			overflow: hidden;
+			transition: 0.3s;
+		}
+
+		.card-product:hover {
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		/* LOADING SCREEN */
+		#overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: rgba(0, 0, 0, 0.8);
+			color: white;
+			font-size: 2rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.5s ease;
+		}
+
+		/* Teks Desa Wisata Krebet di kiri bawah */
+		#bottomLeftText {
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+			color: white;
+			background: rgba(0, 0, 0, 0.6);
+			padding: 8px 15px;
+			border-radius: 50px;
+			font-size: 1rem;
+			font-weight: medium;
+			z-index: 999;
+			pointer-events: none;
+			/* Agar tidak menghalangi klik di bawahnya */
+		}
+
+		/* Keyframes untuk animasi bounce hotspot */
+		@keyframes hotspotBounce {
+
+			0%,
+			100% {
+				transform: translateY(0);
+			}
+
+			50% {
+				transform: translateY(-8px);
+			}
+
+			/* Bergerak 8px ke atas */
+		}
+
+		/* --- GLOBAL LOADING SCREEN --- */
+		#global-loader {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: #1a1a1a;
+			/* Warna latar gelap */
+			z-index: 99999;
+			/* Pastikan paling atas menutupi Navbar */
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			color: #FFD700;
+			transition: opacity 0.5s ease-out;
+		}
+
+		.loader-spinner {
+			width: 50px;
+			height: 50px;
+			border: 5px solid rgba(255, 215, 0, 0.3);
+			border-top: 5px solid #FFD700;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+			margin-bottom: 15px;
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+
+	<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+	<script src="js/jquery.js"></script>
+	<script src="js/imagedata.js"></script>
+	<script>if (window.module) module = window.module;</script>
+</head>
+
+<body>
+	<div id="global-loader">
+		<div class="loader-spinner"></div>
+		<h4>Memuat KAVVIAR...</h4>
+	</div>
+	<nav class="navbar navbar-expand-lg navbar-glass overlay-ui">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#"><i class="fa-solid fa-mask me-2"></i>KAVVIAR</a>
+			<button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
+							data-bs-target="#modalProfil">Profil & Seniman</a></li>
+					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
+							data-bs-target="#modalKesenian">Galeri Kesenian</a></li>
+					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
+							data-bs-target="#modalProduk">Katalog Produk</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="floating-controls controls-center">
+		<button class="btn btn-circle" onclick="customZoomIn()" title="Zoom In"><i
+				class="fa-solid fa-plus"></i></button>
+		<button class="btn btn-circle" onclick="customZoomOut()" title="Zoom Out"><i
+				class="fa-solid fa-minus"></i></button>
+		<button class="btn btn-circle" onclick="toggleAutoRotate()" title="Auto Rotate"><i
+				class="fa-solid fa-sync"></i></button>
+	</div>
+
+	<div class="floating-controls controls-bottom">
+		<button class="btn btn-circle" id="btnSound" onclick="toggleSound()" title="Musik"><i
+				class="fa-solid fa-volume-xmark"></i></button>
+		<button class="btn btn-circle" onclick="toggleMap()" title="Peta Desa"><i
+				class="fa-solid fa-map-location-dot"></i></button>
+		<button class="btn btn-circle" onclick="toggleFullscreen()" title="Fullscreen"><i
+				class="fa-solid fa-expand"></i></button>
+	</div>
+
+	<div id="mapOverlay">
+		<iframe
+			src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7904.707837966173!2d110.29424334740732!3d-7.857979489714501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7af8ecffffffff%3A0xd0279595d07b3187!2sDesa%20Wisata%20Krebet%20Pajangan!5e0!3m2!1sid!2sid!4v1763599329532!5m2!1sid!2sid"
+			width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+	</div>
+
+	<audio id="bgAudio" loop>
+		<source src="audio/gamelan.mp3" type="audio/mpeg">
+	</audio>
+
+	<div class="modal fade" id="modalProfil" tabindex="-1" aria-labelledby="modalProfilLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalProfilLabel"><i class="fa-solid fa-users me-2"></i>Profil KAVVIAR
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active text-dark" id="pengurus-tab" data-bs-toggle="tab"
+								data-bs-target="#tab-pengurus" type="button" role="tab" aria-controls="tab-pengurus"
+								aria-selected="true">Pengurus Seni</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link text-dark" id="kelompok-tab" data-bs-toggle="tab"
+								data-bs-target="#tab-kelompok" type="button" role="tab" aria-controls="tab-kelompok"
+								aria-selected="false">Kelompok Seni</button>
+						</li>
+					</ul>
+					<div class="tab-content p-3" id="myTabContent">
+						<div class="tab-pane fade show active" id="tab-pengurus" role="tabpanel"
+							aria-labelledby="pengurus-tab">
+							<h6>Struktur Pengurus Desa Wisata Krebet</h6>
+							<p>Deskripsi singkat tentang pengelola desa wisata dan visi misinya...</p>
+						</div>
+						<div class="tab-pane fade" id="tab-kelompok" role="tabpanel" aria-labelledby="kelompok-tab">
+							<ul class="list-group">
+								<li class="list-group-item">Sanggar Peni (Batik Kayu)</li>
+								<li class="list-group-item">Sanggar Punokawan</li>
+								<li class="list-group-item">Kelompok Kuliner Tradisional</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalKesenian" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Galeri Kesenian</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="swiper mySwiper">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<div class="ratio ratio-16x9">
+									<iframe src="https://www.youtube.com/embed/ApENYacN4Sw?si=HJU_W7-xH12ypONh"
+										title="Video 1" allowfullscreen></iframe>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="ratio ratio-16x9">
+									<iframe src="https://www.youtube.com/embed/ig5TtS1KO8w?si=PMhLVWxQJpSCL_r6"
+										title="Video 2" allowfullscreen></iframe>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalProduk" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Katalog Produk Batik Kayu</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4 mb-3">
+							<div class="card card-product p-3 h-100">
+								<img src="images/default.png" class="card-img-top" alt="Topeng"
+									style="height:150px; object-fit:contain;">
+								<div class="card-body text-center">
+									<h5 class="card-title">Topeng Batik</h5>
+									<p class="card-text fw-bold text-primary">Rp 150.000</p>
+									<a href="https://wa.me/628123456789?text=Halo" target="_blank"
+										class="btn btn-success w-100"><i class="fa-brands fa-whatsapp"></i> Pesan</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="card card-product p-3 h-100">
+								<img src="images/default.png" class="card-img-top" alt="Wayang"
+									style="height:150px; object-fit:contain;">
+								<div class="card-body text-center">
+									<h5 class="card-title">Wayang Kayu</h5>
+									<p class="card-text fw-bold text-primary">Rp 250.000</p>
+									<a href="https://wa.me/628123456789?text=Halo" target="_blank"
+										class="btn btn-success w-100"><i class="fa-brands fa-whatsapp"></i> Pesan</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="card card-product p-3 h-100">
+								<img src="images/default.png" class="card-img-top" alt="Souvenir"
+									style="height:150px; object-fit:contain;">
+								<div class="card-body text-center">
+									<h5 class="card-title">Gantungan Kunci</h5>
+									<p class="card-text fw-bold text-primary">Rp 15.000</p>
+									<a href="https://wa.me/628123456789?text=Halo" target="_blank"
+										class="btn btn-success w-100"><i class="fa-brands fa-whatsapp"></i> Pesan</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="bottomLeftText" class="overlay-ui"> Desa Wisata Krebet </div>
+
+	<div id="container"></div>
+	<div id="overlay">Loading...</div>
+
+	<script src="js/three.min.js"></script>
+	<script src="js/OrbitControls.js"></script>
+
+	<script>
+		let scene, camera, renderer, controls;
+		let spriteHotspots = [];
+		let panoramaMesh;
+		let targetFov = 75;
+		let initialFov = 75;
+		let initialPinchDistance = null;
+		const overlay = document.getElementById('overlay');
+		const raycaster = new THREE.Raycaster();
+		const mouse = new THREE.Vector2();
+
+		init();
+		animate();
+
+		/*initfunction*/
+		let currentPanorama = '1.jpg';
+		function init() {
+			const container = document.getElementById('container');
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera(targetFov, container.clientWidth / container.clientHeight, 0.1, 1000);
+			camera.position.set(0, 0, 0.1);
+
+			renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer.setSize(container.clientWidth, container.clientHeight);
+			container.appendChild(renderer.domElement);
+
+			controls = new THREE.OrbitControls(camera, renderer.domElement);
+			controls.enableZoom = true;
+			controls.minDistance = 0.1;
+			controls.maxDistance = 5;
+			controls.enablePan = false;
+			controls.rotateSpeed = -0.3;
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.1;
+			controls.autoRotate = false;
+
+			const geometry = new THREE.SphereGeometry(500, 60, 40);
+			geometry.scale(-1, 1, 1);
+			const textureLoader = new THREE.TextureLoader();
+
+			// Load panorama pertama
+			textureLoader.load('panoramas/1.jpg', function (texture) {
+				// 1. Pasang tekstur & hotspot (Proses ini tetap jalan di background)
+				const material = new THREE.MeshBasicMaterial({ map: texture });
+				panoramaMesh = new THREE.Mesh(geometry, material);
+				scene.add(panoramaMesh);
+				loadHotspotsFor('1.jpg');
+
+				// 2. UPDATE: Tahan Loading Screen selama 3 Detik (3000ms)
+				setTimeout(() => {
+					const loaderScreen = document.getElementById('global-loader');
+					if (loaderScreen) {
+						// Mulai animasi fade-out
+						loaderScreen.style.opacity = '0';
+
+						// Hapus elemen setelah animasi fade-out selesai (0.5 detik kemudian)
+						setTimeout(() => {
+							loaderScreen.style.display = 'none';
+						}, 500);
+					}
+				}, 3000); // <-- Angka 3000 ini adalah 3 detik
+
+			},
+				// onProgress
+				function (xhr) {
+					console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+				},
+				// onError
+				function (error) {
+					console.error('Error loading panorama:', error);
+				});
+
+			window.addEventListener('resize', onWindowResize);
+			renderer.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
+			renderer.domElement.addEventListener('pointermove', onPointerMove, false);
+
+			// Event listener click pada Hotspot
+			document.addEventListener('click', function (event) {
+				// FIX: Cek apakah klik terjadi pada element Bootstrap (Modal/Navbar/Tombol)
+				// Jika iya, JANGAN jalankan logika klik hotspot/panorama
+				if (event.target.closest('.navbar') ||
+					event.target.closest('.floating-controls') ||
+					event.target.closest('.modal') ||
+					event.target.closest('.modal-backdrop')) {
+					return;
+				}
+
+				const mouseClick = new THREE.Vector2(
+					(event.clientX / window.innerWidth) * 2 - 1,
+					-(event.clientY / window.innerHeight) * 2 + 1
+				);
+				const clickRaycaster = new THREE.Raycaster();
+				clickRaycaster.setFromCamera(mouseClick, camera);
+				const intersects = clickRaycaster.intersectObjects(spriteHotspots);
+
+				if (intersects.length > 0) {
+					const clicked = intersects[0].object;
+					if (clicked.userData.onClick) clicked.userData.onClick();
+				}
+			});
+		}
+
+		function onMouseWheel(e) {
+			e.preventDefault();
+			targetFov += e.deltaY * 0.05;
+			targetFov = THREE.MathUtils.clamp(targetFov, 30, 100);
+		}
+
+
+		function loadHotspotsFor(panorama) {
+
+			clearHotspots();
+
+			/*panoramas*/
+
+			if (panorama === '1.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.1211475957762, -58.30213318829353, -6.678901876416617), () => {
+					switchPanorama('2.jpg');
+				});
+			}
+
+			if (panorama === '2.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(394.5380744600368, -62.277819101636496, -9.101288274622458), () => {
+					switchPanorama('1.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.5892730140249, -33.489342909172414, -14.93381336018405), () => {
+					switchPanorama('4.jpg');
+				});
+			}
+
+			if (panorama === '3.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(395.8346232878345, -53.4697473632319, -3.95549334440982), () => {
+					switchPanorama('4.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-392.6863823097462, -51.77601937286917, -49.85805093466901), () => {
+					switchPanorama('5.jpg');
+				});
+			}
+
+			if (panorama === '4.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(396.5404938553538, -47.441896669903784, -3.8605045767290793), () => {
+					switchPanorama('2.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.79459154752885, -49.895887862517846, -11.40842825630297), () => {
+					switchPanorama('3.jpg');
+				});
+			}
+
+			if (panorama === '5.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(61.66867499833077, -61.80551619818436, 389.6327924916461), () => {
+					switchPanorama('3.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-384.8890318091611, -39.718722379276755, -97.64536944325718), () => {
+					switchPanorama('6.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-117.98691115406146, -45.230478016162486, -378.82184027339326), () => {
+					switchPanorama('36.jpg');
+				});
+			}
+
+			if (panorama === '6.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.45598100959114, -35.10471743737409, 13.679148813658122), () => {
+					switchPanorama('5.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(395.7199746489469, -38.80971459909284, -39.884786915268464), () => {
+					switchPanorama('7.jpg');
+				});
+			}
+
+			if (panorama === '7.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.12935470786374, -50.15388298041515, 5.351886039107689), () => {
+					switchPanorama('6.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(399.70544844940645, -2.549664396202225, -2.64877939531393), () => {
+					switchPanorama('8.jpg');
+				});
+				addHotspot('images/default.png', new THREE.Vector3(-94.04304985365867, -51.09988472056028, -384.46628357671676), () => {
+					switchPanorama('7detail.jpg');
+				});
+			}
+
+			if (panorama === '8.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-392.87867365960165, -35.08654993643134, 61.188635603555355), () => {
+					switchPanorama('7.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(392.5151459881588, -32.123971930117165, -65.90820289522986), () => {
+					switchPanorama('9.jpg');
+				});
+			}
+
+			if (panorama === '9.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.4883388539014, -40.91152677500579, 1.3050374708259667), () => {
+					switchPanorama('8.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(396.82695321427406, -42.714246732798024, -8.378751082502653), () => {
+					switchPanorama('10.jpg');
+				});
+			}
+
+			if (panorama === '10.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.1627280812348, -49.03973911196566, -6.918595700328251), () => {
+					switchPanorama('9.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.3747397865625, -28.088616139342676, -7.8152692098604435), () => {
+					switchPanorama('11.jpg');
+				});
+			}
+
+			if (panorama === '11.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.1492929043092, -32.935909679327615, -6.603417464370811), () => {
+					switchPanorama('10.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.6227133568862, -28.934295648438344, -3.3885490622611028), () => {
+					switchPanorama('12.jpg');
+				});
+			}
+
+			if (panorama === '12.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.1145009874327, -44.394456051394926, 0.5660747735663693), () => {
+					switchPanorama('11.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.23869155330203, -30.275330148880496, -8.955505676379701), () => {
+					switchPanorama('13.jpg');
+				});
+			}
+
+			if (panorama === '13.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.60879752542644, -38.278684053624644, -4.499160257057407), () => {
+					switchPanorama('12.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.2593831898714, -26.129839581669785, -10.802312607238228), () => {
+					switchPanorama('14.jpg');
+				});
+			}
+
+			if (panorama === '14.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-379.47328847530406, -54.674630211379636, -111.10770100475202), () => {
+					switchPanorama('13.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(384.33239247622254, -19.942304947289568, 105.19335570748935), () => {
+					switchPanorama('15.jpg');
+				});
+				addHotspot('images/default.png', new THREE.Vector3(149.87335597224137, -48.69326294711453, -366.62638983343334), () => {
+					switchPanorama('14detail.jpg');
+				});
+			}
+
+			if (panorama === '15.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.142566063043, -35.06794385384181, 2.4066765233374197), () => {
+					switchPanorama('14.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.2458875650511, -25.27613682105101, -11.514073969148814), () => {
+					switchPanorama('16.jpg');
+				});
+			}
+
+			if (panorama === '16.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.2220889397929, -34.15959378765106, -2.9570761379624195), () => {
+					switchPanorama('15.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(396.11314329985345, -46.315992055249964, -13.180146894113788), () => {
+					switchPanorama('17.jpg');
+				});
+			}
+
+			if (panorama === '17.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.6112586269634, -35.30682194712261, -10.559201282964633), () => {
+					switchPanorama('16.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.43024723597716, -32.21719220633643, -3.568502041743024), () => {
+					switchPanorama('18.jpg');
+				});
+				addHotspot('images/default.png', new THREE.Vector3(38.998518489100064, -45.8670443960453, -394.90088078753354), () => {
+					switchPanorama('17detail.jpg');
+				});
+			}
+
+			if (panorama === '18.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.41714133352644, -55.38125252218747, -7.189102221036563), () => {
+					switchPanorama('17.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(397.6785279932817, -33.8763419893442, -12.503116085424505), () => {
+					switchPanorama('19.jpg');
+				});
+			}
+
+			if (panorama === '19.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.7337833814239, -46.472343725531935, -2.6233905971952884), () => {
+					switchPanorama('18.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.1486325980936, -27.923462172532346, -11.710825514282302), () => {
+					switchPanorama('20.jpg');
+				});
+				addHotspot('images/default.png', new THREE.Vector3(322.93011164825896, -35.68505412231108, 232.86084219618672), () => {
+					switchPanorama('19detail.jpg');
+				});
+			}
+
+			if (panorama === '20.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.3756436333547, -33.43915291093163, -1.984993872885489), () => {
+					switchPanorama('19.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.22160468515875, -28.539594727249728, -10.136864315263331), () => {
+					switchPanorama('21.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(79.45119152078175, -41.41427870775153, 389.2920910835395), () => {
+					switchPanorama('20a.jpg');
+				});
+			}
+
+			if (panorama === '21.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.9272138755349, -36.759663688001076, -2.4562772228687693), () => {
+					switchPanorama('20.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.7164135289004, -20.68082093123019, -6.322292670404325), () => {
+					switchPanorama('22.jpg');
+				});
+			}
+
+			if (panorama === '22.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.84710192784564, -26.859700033306822, 0.9133794311457881), () => {
+					switchPanorama('21.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.22079022965903, -25.129546461154874, -12.02979907108285), () => {
+					switchPanorama('23.jpg');
+				});
+			}
+
+			if (panorama === '23.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.23921711475396, -39.36328871563159, -8.328526036892162), () => {
+					switchPanorama('22.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(397.93111373989836, -12.95891196295557, -25.866523348113716), () => {
+					switchPanorama('24.jpg');
+				});
+			}
+
+			if (panorama === '24.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(396.34259765177865, -34.46318404654508, 37.928726411899326), () => {
+					switchPanorama('23.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(51.961713068871404, -74.6681684052456, -388.60617779267716), () => {
+					switchPanorama('25.jpg');
+				});
+			}
+
+			if (panorama === '25.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(389.9533233666603, -43.52177879779612, -73.28463928974568), () => {
+					switchPanorama('24.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.02161729153505, -33.533502831398636, -25.58608568827298), () => {
+					switchPanorama('26.jpg');
+				});
+			}
+
+			if (panorama === '26.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.1575083478701, -31.243233411987422, -9.833416886619945), () => {
+					switchPanorama('25.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.4830698730866, -31.1762985157612, 4.527464228942318), () => {
+					switchPanorama('27.jpg');
+				});
+			}
+
+			if (panorama === '27.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.96586323340284, -14.630944861092434, 6.009312200243807), () => {
+					switchPanorama('26.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-399.37418133356823, -10.636588254901655, 2.139444045535691), () => {
+					switchPanorama('28.jpg');
+				});
+			}
+
+			if (panorama === '28.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.605807748504, -15.972711192421004, -11.112480649366587), () => {
+					switchPanorama('27.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-399.18434635095895, -17.556380183201423, 0.7629647608294856), () => {
+					switchPanorama('29.jpg');
+				});
+			}
+
+			if (panorama === '29.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(399.5385726739427, -7.354197713696466, 1.8028746375861835), () => {
+					switchPanorama('28.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.36403242217784, -37.72931242661478, 9.619574773684048), () => {
+					switchPanorama('30.jpg');
+				});
+			}
+
+			if (panorama === '30.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.7902794014274, -28.77119881769095, 0.8555389533038369), () => {
+					switchPanorama('29.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.1397817745774, -35.948207406012685, -0.7365131135227659), () => {
+					switchPanorama('31.jpg');
+				});
+			}
+
+			if (panorama === '31.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.2904675011955, -27.716025133493464, 9.413337762522051), () => {
+					switchPanorama('30.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.0164939689107, -10.002261789573334, -26.652351120893844), () => {
+					switchPanorama('32.jpg');
+				});
+			}
+
+			if (panorama === '32.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-264.3162766395978, -22.805370340004817, -298.6762295368228), () => {
+					switchPanorama('31.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-379.0035815975044, -20.35878844212866, 124.822546428012), () => {
+					switchPanorama('33.jpg');
+				});
+			}
+
+			if (panorama === '33.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.65305232127207, -25.871103854557305, -4.4590244374591546), () => {
+					switchPanorama('32.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.77267040194437, -18.132482280878172, -6.939524042517586), () => {
+					switchPanorama('33a.jpg');
+				});
+			}
+
+			if (panorama === '34.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.3457598626258, -29.817333000518882, -7.411376568996783), () => {
+					switchPanorama('33a.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(397.6590692605958, -22.49578649889834, -24.058503545982965), () => {
+					switchPanorama('35.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-269.0031677305906, -63.11532185599586, 288.68695894939924), () => {
+					switchPanorama('20f.jpg');
+				});
+			}
+
+			if (panorama === '35.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.9708326706874, -18.424992763371854, -3.578313020750004), () => {
+					switchPanorama('36.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-399.13187000864116, 8.490052798798187, 7.49623871990152), () => {
+					switchPanorama('34.jpg');
+				});
+			}
+
+			if (panorama === '36.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.3408707004333, -34.60629116357516, -0.2424996380508957), () => {
+					switchPanorama('35.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(397.53811530027275, -31.35968336446192, -20.86038874718258), () => {
+					switchPanorama('5.jpg');
+				});
+			}
+
+			if (panorama === '7detail.jpg') {
+				addHotspot('images/default.png', new THREE.Vector3(-358.48571450882076, -37.16682377732786, 171.7436315444744), () => {
+					switchPanorama('7.jpg');
+				});
+			}
+
+			if (panorama === '14detail.jpg') {
+				addHotspot('images/default.png', new THREE.Vector3(187.0563961668251, -22.382241110619937, 351.81254233990103), () => {
+					switchPanorama('14.jpg');
+				});
+			}
+
+			if (panorama === '17detail.jpg') {
+				addHotspot('images/default.png', new THREE.Vector3(49.69633131117027, -35.57490253579623, 394.6876807705354), () => {
+					switchPanorama('17.jpg');
+				});
+			}
+
+			if (panorama === '19detail.jpg') {
+				addHotspot('images/default.png', new THREE.Vector3(-31.265387626653904, -15.636024445863004, -397.56696425017026), () => {
+					switchPanorama('19.jpg');
+				});
+			}
+
+			if (panorama === '20a.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.072442471476, -27.62817468277715, -13.19360383360185), () => {
+					switchPanorama('20.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.24340385216095, -39.50987621026875, 7.960404456262008), () => {
+					switchPanorama('20b.jpg');
+				});
+			}
+
+			if (panorama === '20b.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(141.0686072295091, -2.366163042857753, -373.4519102848381), () => {
+					switchPanorama('20a.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-70.99779750161976, -45.40751432246722, 390.0720351269964), () => {
+					switchPanorama('20c.jpg');
+				});
+			}
+
+			if (panorama === '20c.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-152.19080922417444, -45.724791241547926, -366.1272309301679), () => {
+					switchPanorama('20b.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(335.4276966716505, -7.700708161764645, -216.0016308460382), () => {
+					switchPanorama('28.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-367.14415784719927, -50.365763294498535, 147.95466187847296), () => {
+					switchPanorama('20d.jpg');
+				});
+			}
+
+			if (panorama === '20d.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(397.6452535318715, -32.58350482883361, -15.995818402137441), () => {
+					switchPanorama('20c.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.08584809591684, -42.49261412382904, -22.114275843606016), () => {
+					switchPanorama('20e.jpg');
+				});
+			}
+
+			if (panorama === '20e.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.60380766056824, -14.124772940513214, -12.407650541125657), () => {
+					switchPanorama('20d.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.3424371832099, -37.20719380429635, -30.122324585499236), () => {
+					switchPanorama('20f.jpg');
+				});
+			}
+
+			if (panorama === '20f.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.15427303796906, -22.73444539585398, -51.8288945867126), () => {
+					switchPanorama('20e.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(397.39332585067353, -23.378088963149224, -28.870217651435706), () => {
+					switchPanorama('34.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-20.040501127802443, -28.70389226413612, 397.6616012521545), () => {
+					switchPanorama('17.jpg');
+				});
+			}
+
+			if (panorama === '33a.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(322.17836355408696, -1.44219067041946, 236.72440626072358), () => {
+					switchPanorama('33.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-283.6033152186592, -2.238369447094315, -280.96150795074504), () => {
+					switchPanorama('34.jpg');
+				});
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-324.2599941537418, -45.75497259227406, 228.46759023700926), () => {
+					switchPanorama('37.jpg');
+				});
+			}
+
+			if (panorama === '37.jpg') {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(398.9287722777255, -5.940265106711649, 12.852195363010232), () => {
+					switchPanorama('33a.jpg');
+				});
+			}
+
+			if (panorama === '38.jpg') {
+			}
+
+			if (panorama === '39.jpg') {
+			}
+
+			if (panorama === '37detail.jpg') {
+			}
+
+			/*panoramas-end*/
+		}
+
+
+
+		function switchPanorama(panoramaName) {
+			if (currentPanorama === panoramaName) return; // Hindari reload panorama yang sama
+
+			overlay.style.pointerEvents = 'auto';
+			overlay.style.opacity = '1';
+			overlay.textContent = 'Loading...';
+
+			container.style.opacity = '0'; // Fade out panorama saat ini
+
+			setTimeout(() => {
+				new THREE.TextureLoader().load(`panoramas/${panoramaName}`, (tex) => {
+					panoramaMesh.material.map = tex;
+					panoramaMesh.material.needsUpdate = true;
+					currentPanorama = panoramaName;
+					loadHotspotsFor(currentPanorama);
+
+					container.style.opacity = '1'; // Fade in panorama baru
+					overlay.style.opacity = '0';
+					overlay.style.pointerEvents = 'none';
+				});
+			}, 500); // Durasi fade out (harus sama dengan transisi CSS)
+		}
+
+		function addHotspot(imageUrl, position, onClickCallback) {
+			new THREE.TextureLoader().load(imageUrl, (texture) => {
+				const material = new THREE.SpriteMaterial({ map: texture });
+				const sprite = new THREE.Sprite(material);
+				sprite.position.copy(position);
+				sprite.scale.set(40, 40, 1);
+				sprite.userData = { onClick: onClickCallback, targetScale: 40, initialY: position.y }; // Simpan posisi Y awal
+				spriteHotspots.push(sprite);
+				scene.add(sprite);
+			});
+		}
+
+		function clearHotspots() {
+			spriteHotspots.forEach(sprite => scene.remove(sprite));
+			spriteHotspots = [];
+		}
+
+		function onPointerMove(event) {
+			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+			raycaster.setFromCamera(mouse, camera);
+			const intersects = raycaster.intersectObjects(spriteHotspots);
+			spriteHotspots.forEach(sprite => { sprite.userData.targetScale = 40; });
+			if (intersects.length > 0) { intersects[0].object.userData.targetScale = 50; }
+		}
+
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		function animate() {
+			requestAnimationFrame(animate);
+
+			// Animasi FOV
+			camera.fov += (targetFov - camera.fov) * 0.1;
+			camera.updateProjectionMatrix();
+
+			const time = performance.now() * 0.005; // Kecepatan animasi bounce
+
+			spriteHotspots.forEach(sprite => {
+				// Animasi Hover
+				const currentScale = sprite.scale.x;
+				const target = sprite.userData.targetScale || 40;
+				const newScale = THREE.MathUtils.lerp(currentScale, target, 0.1);
+				sprite.scale.set(newScale, newScale, 1);
+
+				// Animasi Bounce (menggunakan sinus untuk gerakan berulang)
+				// Mengatur posisi Y hotspot berdasarkan sinus gelombang
+				sprite.position.y = sprite.userData.initialY + Math.sin(time + sprite.id) * 2; // Menggunakan sprite.id untuk offset agar tidak semua bounce barengan
+			});
+			controls.update();
+			renderer.render(scene, camera);
+		}
+
+		function showMedia(type, content) {
+			switch (type) {
+				case 1:
+					//Image
+					$("#tmpcontent").html("<img src='" + content + "' style='width: 100%;'>");
+					$("#tmp").fadeIn();
+					break;
+				case 2:
+					//Video
+					$("#tmpcontent").html("<video id='webvideo' controls autoplay style='width: 100%; height: 100%;'><source src='" + content + "' type='video/mp4'> Your browser does not support the video tag. </video>");
+					$("#tmp").fadeIn();
+					break;
+				case 3:
+					//Audio
+					$("#tmpcontent").html("<audio controls style='width: 100%;'><source src='" + content + "' type='audio/ogg'>Your browser does not support the audio tag.</audio>");
+					$("#tmp").fadeIn();
+					break;
+				case 4:
+					//PDF
+					$("#tmpcontent").html("<iframe src='pdfjs/web/viewer.html?file=../../" + content + "' style='width: 100%; height: 99%;'></iframe>");
+					$("#tmp").fadeIn();
+					break;
+			}
+		}
+
+		/*customjs*/
+
+		/*customjs-end*/
+
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+	<script>
+		// --- LOGIC KUSTOM KAVVIAR ---
+
+		// 1. AUDIO LOGIC
+		var audio = document.getElementById("bgAudio");
+		var soundBtn = document.getElementById("btnSound");
+		var isPlaying = false;
+
+		function toggleSound() {
+			if (isPlaying) {
+				audio.pause();
+				soundBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+			} else {
+				audio.play().catch(error => console.log("Browser block autoplay, user clicked first"));
+				soundBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+			}
+			isPlaying = !isPlaying;
+		}
+
+		// 2. ZOOM LOGIC (Manipulasi variable targetFov di script utama)
+		function customZoomIn() {
+			targetFov -= 10; // Zoom in = FOV makin kecil
+			if (targetFov < 30) targetFov = 30;
+		}
+
+		function customZoomOut() {
+			targetFov += 10; // Zoom out = FOV makin besar
+			if (targetFov > 100) targetFov = 100;
+		}
+
+		// 3. AUTO ROTATE LOGIC
+		function toggleAutoRotate() {
+			controls.autoRotate = !controls.autoRotate;
+		}
+
+		// 4. MAP TOGGLE
+		function toggleMap() {
+			var map = document.getElementById('mapOverlay');
+			if (map.style.display === 'none' || map.style.display === '') {
+				map.style.display = 'block';
+			} else {
+				map.style.display = 'none';
+			}
+		}
+
+		// 5. FULLSCREEN
+		function toggleFullscreen() {
+			if (!document.fullscreenElement) {
+				document.documentElement.requestFullscreen();
+			} else {
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
+				}
+			}
+		}
+
+		// 6. SWIPER INITIALIZATION (Untuk Modal Kesenian)
+		var swiper = new Swiper(".mySwiper", {
+			observer: true,         // FIX: Agar swiper jalan saat modal dibuka
+			observeParents: true,   // FIX: Deteksi parent element
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+		});
+	</script>
+
+</body>
+
+</html>
