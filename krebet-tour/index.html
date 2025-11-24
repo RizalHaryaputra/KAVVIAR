@@ -92,8 +92,8 @@
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 			width: 100%;
 			top: 0;
-			padding-right: 3rem;
-			padding-left: 3rem;
+			padding-right: 1rem;
+			padding-left: 1rem;
 		}
 
 		.navbar-brand {
@@ -328,6 +328,8 @@
 				transform: rotate(360deg);
 			}
 		}
+
+		
 	</style>
 
 	<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
@@ -376,6 +378,10 @@
 				class="fa-solid fa-map-location-dot"></i></button>
 		<button class="btn btn-circle" onclick="toggleFullscreen()" title="Fullscreen"><i
 				class="fa-solid fa-expand"></i></button>
+		<button class="btn btn-circle" onclick="togglePicker()" title="Position Picker">
+			<i class="fa-solid fa-crosshairs"></i>
+		</button>
+
 	</div>
 
 	<div id="mapOverlay">
@@ -511,6 +517,20 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modalMedia" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Info Detail</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center" id="modalMediaContent"
+					style="background: #000; min-height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 0 0 15px 15px;">
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="bottomLeftText" class="overlay-ui"> Desa Wisata Krebet </div>
 
 	<div id="container"></div>
@@ -597,6 +617,37 @@
 
 			// Event listener click pada Hotspot
 			document.addEventListener('click', function (event) {
+				// --- POSITION PICKER MODE ---
+				if (pickerMode) {
+					const mousePos = new THREE.Vector2(
+						(event.clientX / window.innerWidth) * 2 - 1,
+						-(event.clientY / window.innerHeight) * 2 + 1
+					);
+
+					const pickerRay = new THREE.Raycaster();
+					pickerRay.setFromCamera(mousePos, camera);
+
+					const intersects = pickerRay.intersectObject(panoramaMesh);
+
+					if (intersects.length > 0) {
+						const point = intersects[0].point;
+
+						// Tampilkan Marker Visual (Anti-potong)
+						placePickerMarker(point);
+
+						// FORMAT COPY-PASTE SIAP PAKAI
+						const coords = `new THREE.Vector3(${point.x.toFixed(2)}, ${point.y.toFixed(2)}, ${point.z.toFixed(2)})`;
+
+						console.log("%c📍 KOORDINAT DITEMUKAN:", "color: #00ff00; font-weight: bold; font-size: 14px;");
+						console.log(coords);
+
+						// (Opsional) Munculkan alert agar tidak perlu buka inspect element terus
+						// alert("Koordinat: " + coords); 
+					}
+
+					return;
+				}
+
 				// FIX: Cek apakah klik terjadi pada element Bootstrap (Modal/Navbar/Tombol)
 				// Jika iya, JANGAN jalankan logika klik hotspot/panorama
 				if (event.target.closest('.navbar') ||
@@ -638,6 +689,17 @@
 				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.1211475957762, -58.30213318829353, -6.678901876416617), () => {
 					switchPanorama('2.jpg');
 				});
+
+				// 1. Tentukan posisi koordinatnya dalam variabel
+				let posMedia = new THREE.Vector3(-460.08, -72.49, -179.48);
+
+				// 2. Tambahkan Icon Hotspot (Info/Gambar)
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(1, 'images/selamat-datang.png');
+				});
+
+				// 3. Tambahkan Label Teks di posisi yang sama (Fungsi akan otomatis menaikkan posisinya sedikit)
+				addTextLabel("Selamat Datang", posMedia);
 			}
 
 			if (panorama === '2.jpg') {
@@ -1117,15 +1179,86 @@
 
 		function addHotspot(imageUrl, position, onClickCallback) {
 			new THREE.TextureLoader().load(imageUrl, (texture) => {
-				const material = new THREE.SpriteMaterial({ map: texture });
+				const material = new THREE.SpriteMaterial({
+					map: texture,
+					// FIX UTAMA: Matikan depth checking agar tidak terpotong dinding
+					depthTest: false,
+					depthWrite: false
+				});
+
 				const sprite = new THREE.Sprite(material);
 				sprite.position.copy(position);
 				sprite.scale.set(40, 40, 1);
-				sprite.userData = { onClick: onClickCallback, targetScale: 40, initialY: position.y }; // Simpan posisi Y awal
+
+				// FIX TAMBAHAN: Pastikan dirender paling akhir (di atas segalanya)
+				sprite.renderOrder = 1000;
+
+				sprite.userData = {
+					onClick: onClickCallback,
+					targetScale: 40,
+					initialY: position.y
+				};
+
 				spriteHotspots.push(sprite);
 				scene.add(sprite);
 			});
 		}
+
+		function addTextLabel(text, position) {
+			const canvas = document.createElement('canvas');
+			const context = canvas.getContext('2d');
+			canvas.width = 1024;
+			canvas.height = 256;
+
+			// Gambar Background
+			context.fillStyle = "rgba(0, 0, 0, 0.6)";
+			const x = 100, y = 20, w = 824, h = 216, r = 50;
+			context.beginPath();
+			context.moveTo(x + r, y);
+			context.lineTo(x + w - r, y);
+			context.quadraticCurveTo(x + w, y, x + w, y + r);
+			context.lineTo(x + w, y + h - r);
+			context.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+			context.lineTo(x + r, y + h);
+			context.quadraticCurveTo(x, y + h, x, y + h - r);
+			context.lineTo(x, y + r);
+			context.quadraticCurveTo(x, y, x + r, y);
+			context.closePath();
+			context.fill();
+
+			// Gambar Teks
+			context.font = "bold 80px Arial";
+			context.fillStyle = "#FFFF";
+			context.textAlign = "center";
+			context.textBaseline = "middle";
+			context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+			const texture = new THREE.CanvasTexture(canvas);
+			const material = new THREE.SpriteMaterial({
+				map: texture,
+				transparent: true,
+				depthTest: false,
+				depthWrite: false
+			});
+
+			const sprite = new THREE.Sprite(material);
+
+			// Atur Posisi & Skala Awal
+			sprite.position.copy(position);
+			sprite.position.y += 30;
+			sprite.scale.set(80, 20, 1);
+			sprite.renderOrder = 9999;
+
+			// --- PENTING: DATA KHUSUS UNTUK ANIMASI ---
+			sprite.userData = {
+				isText: true,               // Penanda bahwa ini adalah Teks
+				initialY: sprite.position.y // Simpan posisi awal untuk bounce
+			};
+
+			scene.add(sprite);
+			spriteHotspots.push(sprite); // Sekarang aman untuk dimasukkan
+		}
+
 
 		function clearHotspots() {
 			spriteHotspots.forEach(sprite => scene.remove(sprite));
@@ -1147,53 +1280,147 @@
 			renderer.setSize(window.innerWidth, window.innerHeight);
 		}
 
+		let pickerMode = false;
+		let pickerSprite = null;
+
+		function togglePicker() {
+			pickerMode = !pickerMode;
+
+			if (pickerMode) {
+				console.log("%cPosition Picker ENABLED", "color: #00ff00; font-size: 16px;");
+			} else {
+				console.log("%cPosition Picker DISABLED", "color: red; font-size: 16px;");
+
+				if (pickerSprite) {
+					scene.remove(pickerSprite);
+					pickerSprite = null;
+				}
+			}
+		}
+
+		function placePickerMarker(position) {
+			// Gunakan gambar default atau icon khusus picker
+			const texture = new THREE.TextureLoader().load("images/default.png");
+
+			const material = new THREE.SpriteMaterial({
+				map: texture,
+				// FIX: Matikan depthTest agar marker tidak 'tenggelam' ke dalam dinding
+				depthTest: false,
+				depthWrite: false
+			});
+
+			const sprite = new THREE.Sprite(material);
+
+			sprite.position.copy(position);
+			sprite.scale.set(40, 40, 1); // Ukuran diperbesar sedikit agar jelas
+
+			// FIX: Pastikan dirender paling terakhir (paling depan)
+			sprite.renderOrder = 10000;
+
+			if (pickerSprite) scene.remove(pickerSprite);
+
+			pickerSprite = sprite;
+			scene.add(sprite);
+		}
+
+
 		function animate() {
 			requestAnimationFrame(animate);
 
-			// Animasi FOV
+			// Animasi FOV (Zoom)
 			camera.fov += (targetFov - camera.fov) * 0.1;
 			camera.updateProjectionMatrix();
 
-			const time = performance.now() * 0.005; // Kecepatan animasi bounce
+			const time = performance.now() * 0.005;
 
 			spriteHotspots.forEach(sprite => {
-				// Animasi Hover
-				const currentScale = sprite.scale.x;
-				const target = sprite.userData.targetScale || 40;
-				const newScale = THREE.MathUtils.lerp(currentScale, target, 0.1);
-				sprite.scale.set(newScale, newScale, 1);
+				// CEK: Apakah ini Label Teks atau Icon Biasa?
+				if (sprite.userData.isText) {
+					// --- JIKA LABEL TEKS ---
+					// Hanya lakukan animasi bounce (jangan ubah scale/ukuran)
+					if (sprite.userData.initialY) {
+						sprite.position.y = sprite.userData.initialY + Math.sin(time) * 2;
+					}
+				} else {
+					// --- JIKA ICON HOTSPOT BIASA ---
+					// Animasi Scale (Membesar saat di-hover)
+					const currentScale = sprite.scale.x;
+					const target = sprite.userData.targetScale || 40;
+					const newScale = THREE.MathUtils.lerp(currentScale, target, 0.1);
+					sprite.scale.set(newScale, newScale, 1); // Scale X dan Y sama (kotak)
 
-				// Animasi Bounce (menggunakan sinus untuk gerakan berulang)
-				// Mengatur posisi Y hotspot berdasarkan sinus gelombang
-				sprite.position.y = sprite.userData.initialY + Math.sin(time + sprite.id) * 2; // Menggunakan sprite.id untuk offset agar tidak semua bounce barengan
+					// Animasi Bounce
+					if (sprite.userData.initialY) {
+						sprite.position.y = sprite.userData.initialY + Math.sin(time + sprite.id) * 2;
+					}
+				}
 			});
+
 			controls.update();
 			renderer.render(scene, camera);
 		}
 
 		function showMedia(type, content) {
+			const modalContent = document.getElementById('modalMediaContent');
+			// Inisialisasi Modal Bootstrap
+			// Pastikan elemen modalMedia ada di HTML body Anda
+			const myModalElement = document.getElementById('modalMedia');
+			const myModal = new bootstrap.Modal(myModalElement);
+
+			let html = '';
+
 			switch (type) {
 				case 1:
-					//Image
-					$("#tmpcontent").html("<img src='" + content + "' style='width: 100%;'>");
-					$("#tmp").fadeIn();
+					// Image
+					html = `<img src="${content}" class="img-fluid rounded" style="max-height: 70vh;" alt="Detail Info">`;
 					break;
 				case 2:
-					//Video
-					$("#tmpcontent").html("<video id='webvideo' controls autoplay style='width: 100%; height: 100%;'><source src='" + content + "' type='video/mp4'> Your browser does not support the video tag. </video>");
-					$("#tmp").fadeIn();
+					// Video Lokal (MP4 File)
+					html = `
+                <div class="ratio ratio-16x9">
+                    <video controls autoplay style="width: 100%; height: 100%;">
+                        <source src="${content}" type="video/mp4"> 
+                        Browser anda tidak mendukung video.
+                    </video>
+                </div>`;
 					break;
 				case 3:
-					//Audio
-					$("#tmpcontent").html("<audio controls style='width: 100%;'><source src='" + content + "' type='audio/ogg'>Your browser does not support the audio tag.</audio>");
-					$("#tmp").fadeIn();
+					// Audio
+					html = `
+                <div class="p-5 text-white">
+                    <i class="fa-solid fa-music fa-3x mb-3 text-warning"></i><br>
+                    <audio controls autoplay style="width: 100%;">
+                        <source src="${content}" type="audio/ogg">
+                        <source src="${content}" type="audio/mpeg">
+                        Your browser does not support the audio tag.
+                    </audio>
+                </div>`;
 					break;
 				case 4:
-					//PDF
-					$("#tmpcontent").html("<iframe src='pdfjs/web/viewer.html?file=../../" + content + "' style='width: 100%; height: 99%;'></iframe>");
-					$("#tmp").fadeIn();
+					// PDF / Iframe External
+					html = `<iframe src="${content}" style="width: 100%; height: 500px; border: none;"></iframe>`;
+					break;
+				case 5:
+					// YOUTUBE VIDEO (NEW)
+					// Menggunakan class ratio-16x9 dari Bootstrap agar responsif
+					html = `
+                <div class="ratio ratio-16x9">
+                    <iframe src="${content}" title="YouTube video player" allowfullscreen></iframe>
+                </div>`;
 					break;
 			}
+
+			// Masukkan konten ke modal body
+			modalContent.innerHTML = html;
+
+			// Tampilkan Modal
+			myModal.show();
+
+			// PENTING: Event listener untuk menghentikan Video/Audio saat modal ditutup
+			// Kita gunakan { once: true } agar listener tidak menumpuk setiap kali diklik
+			myModalElement.addEventListener('hidden.bs.modal', function () {
+				modalContent.innerHTML = ''; // Menghapus iframe/video akan otomatis mematikan suaranya
+			}, { once: true });
 		}
 
 		/*customjs*/
