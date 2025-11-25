@@ -548,11 +548,13 @@
 		const raycaster = new THREE.Raycaster();
 		const mouse = new THREE.Vector2();
 
+
 		init();
 		animate();
 
 		/*initfunction*/
 		let currentPanorama = '1.jpg';
+		let previousPanorama = null;
 		function init() {
 			const container = document.getElementById('container');
 			scene = new THREE.Scene();
@@ -744,6 +746,7 @@
 				});
 
 				addTextLabel("Lokasi Krebet", posMedia);
+
 			}
 
 			if (panorama === '4.jpg') {
@@ -818,7 +821,11 @@
 				let posMedia = new THREE.Vector3(-467.04, -57.63, -166.26);
 
 				addHotspot('images/image.png', posMedia, () => {
-					showMedia(1, 'images/sejarah-krebet.png');
+					showMedia(6, {
+						image: 'images/struktur-pengurus.png',
+						audio: 'audio/struktur-pengurus.wav'
+					});
+
 				});
 
 				addTextLabel("Struktur Pengurus", posMedia);
@@ -832,7 +839,39 @@
 					switchPanorama('9.jpg');
 				});
 
-				let posMedia = new THREE.Vector3(-453.99, -70.56, 195.99);
+				let posMedia = new THREE.Vector3(412.67, -94.64, -264.05);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/kelompok-kesenian.png',
+						audio: 'audio/kelompok-kesenian.wav'
+					});
+
+				});
+
+				addTextLabel("Kelompok Kesenian", posMedia);
+
+				// Cek apakah pengunjung datang dari '7.jpg'?
+				if (previousPanorama === '7.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 9
+					// Koordinat diambil dari Vector3 hotspot ke 9 di atas
+					camera.lookAt(392.51, -32.12, -65.90);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(392.51, -32.12, -65.90).normalize();
+					controls.update();
+				}
+			}
+
+			if (panorama === '9.jpg') {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.4883388539014, -40.91152677500579, 1.3050374708259667), () => {
+					switchPanorama('8.jpg');
+				});
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(396.82695321427406, -42.714246732798024, -8.378751082502653), () => {
+					switchPanorama('10.jpg');
+				});
+
+				let posMedia = new THREE.Vector3(478.64, -64.12, 125.58);
 
 				addHotspot('images/image.png', posMedia, () => {
 					showMedia(6, {
@@ -845,15 +884,6 @@
 				addTextLabel("Paket Wisata", posMedia);
 			}
 
-			if (panorama === '9.jpg') {
-				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.4883388539014, -40.91152677500579, 1.3050374708259667), () => {
-					switchPanorama('8.jpg');
-				});
-				addHotspot('images/chevrontilted.png', new THREE.Vector3(396.82695321427406, -42.714246732798024, -8.378751082502653), () => {
-					switchPanorama('10.jpg');
-				});
-			}
-
 			if (panorama === '10.jpg') {
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-396.1627280812348, -49.03973911196566, -6.918595700328251), () => {
 					switchPanorama('9.jpg');
@@ -861,6 +891,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.3747397865625, -28.088616139342676, -7.8152692098604435), () => {
 					switchPanorama('11.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(456.11, -101.53, -175.01);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-batik-1.png',
+						audio: 'audio/paket-batik-1.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Batik (1)", posMedia);
 			}
 
 			if (panorama === '11.jpg') {
@@ -870,6 +912,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.6227133568862, -28.934295648438344, -3.3885490622611028), () => {
 					switchPanorama('12.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(472.32, -95.53, 129.44);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-batik-2.png',
+						audio: 'audio/paket-batik-2.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Batik (2)", posMedia);
 			}
 
 			if (panorama === '12.jpg') {
@@ -879,6 +933,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.23869155330203, -30.275330148880496, -8.955505676379701), () => {
 					switchPanorama('13.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(461.96, -92.79, -164.62);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-eco-1.png',
+						audio: 'audio/paket-eco-1.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Ecoprint (1)", posMedia);
 			}
 
 			if (panorama === '13.jpg') {
@@ -888,6 +954,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.2593831898714, -26.129839581669785, -10.802312607238228), () => {
 					switchPanorama('14.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(466.46, -89.81, 154.57);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-eco-2.png',
+						audio: 'audio/paket-eco-2.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Ecoprint (2)", posMedia);
 			}
 
 			if (panorama === '14.jpg') {
@@ -900,6 +978,18 @@
 				addHotspot('images/default.png', new THREE.Vector3(149.87335597224137, -48.69326294711453, -366.62638983343334), () => {
 					switchPanorama('14detail.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(496.39, -51.21, -12.41);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-kesenian.png',
+						audio: 'audio/paket-kesenian.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Kesenian", posMedia);
 			}
 
 			if (panorama === '15.jpg') {
@@ -909,6 +999,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.2458875650511, -25.27613682105101, -11.514073969148814), () => {
 					switchPanorama('16.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(485.06, -55.63, 105.51);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-permainan.png',
+						audio: 'audio/paket-permainan.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Permainan", posMedia);
 			}
 
 			if (panorama === '16.jpg') {
@@ -918,6 +1020,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(396.11314329985345, -46.315992055249964, -13.180146894113788), () => {
 					switchPanorama('17.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(465.03, -70.40, -167.28);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/kunjungan-industri.png',
+						audio: 'audio/kunjungan-industri.wav'
+					});
+
+				});
+
+				addTextLabel("Kunjungan Industri", posMedia);
 			}
 
 			if (panorama === '17.jpg') {
@@ -930,6 +1044,18 @@
 				addHotspot('images/default.png', new THREE.Vector3(38.998518489100064, -45.8670443960453, -394.90088078753354), () => {
 					switchPanorama('17detail.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(477.77, -65.10, 128.39);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-explore.png',
+						audio: 'audio/paket-explore.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Explore", posMedia);
 			}
 
 			if (panorama === '18.jpg') {
@@ -939,6 +1065,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.6785279932817, -33.8763419893442, -12.503116085424505), () => {
 					switchPanorama('19.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(472.56, -68.87, -146.10);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/study-banding.png',
+						audio: 'audio/study-banding.wav'
+					});
+
+				});
+
+				addTextLabel("Study Banding", posMedia);
 			}
 
 			if (panorama === '19.jpg') {
@@ -951,6 +1089,18 @@
 				addHotspot('images/default.png', new THREE.Vector3(322.93011164825896, -35.68505412231108, 232.86084219618672), () => {
 					switchPanorama('19detail.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(474.89, -57.97, -142.38);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-gerabah.png',
+						audio: 'audio/paket-gerabah.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Gerabah", posMedia);
 			}
 
 			if (panorama === '20.jpg') {
@@ -963,6 +1113,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(79.45119152078175, -41.41427870775153, 389.2920910835395), () => {
 					switchPanorama('20a.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(485.75, -52.75, 104.24);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-half-day.png',
+						audio: 'audio/paket-half-day.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Half Day", posMedia);
 			}
 
 			if (panorama === '21.jpg') {
@@ -972,6 +1134,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.7164135289004, -20.68082093123019, -6.322292670404325), () => {
 					switchPanorama('22.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(475.69, -68.67, -134.52);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-keluarga.png',
+						audio: 'audio/paket-keluarga.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Keluarga", posMedia);
 			}
 
 			if (panorama === '22.jpg') {
@@ -981,6 +1155,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.22079022965903, -25.129546461154874, -12.02979907108285), () => {
 					switchPanorama('23.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(484.81, -55.36, 106.57);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/live-in-1.png',
+						audio: 'audio/live-in-1.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Live In 2D1N", posMedia);
 			}
 
 			if (panorama === '23.jpg') {
@@ -990,6 +1176,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.93111373989836, -12.95891196295557, -25.866523348113716), () => {
 					switchPanorama('24.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(476.82, -59.10, -134.68);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/live-in-2.png',
+						audio: 'audio/live-in-2.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Live In 3D2N", posMedia);
 			}
 
 			if (panorama === '24.jpg') {
@@ -999,6 +1197,29 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(51.961713068871404, -74.6681684052456, -388.60617779267716), () => {
 					switchPanorama('25.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-77.72, -112.89, -480.03);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/pulosari-adventure.png',
+						audio: 'audio/pulosari-adventure.wav'
+					});
+
+				});
+
+				addTextLabel("Pulosari Adventure", posMedia);
+
+				// Cek apakah pengunjung datang dari '23.jpg'?
+				if (previousPanorama === '23.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 25
+					// Koordinat diambil dari Vector3 hotspot ke 25 di atas
+					camera.lookAt(51.96, -74.66, -388.60);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(51.96, -74.66, -388.60).normalize();
+					controls.update();
+				}
 			}
 
 			if (panorama === '25.jpg') {
@@ -1008,6 +1229,29 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.02161729153505, -33.533502831398636, -25.58608568827298), () => {
 					switchPanorama('26.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-465.18, -78.25, -164.31);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/atv-adventure.png',
+						audio: 'audio/atv-adventure.wav'
+					});
+
+				});
+
+				addTextLabel("Atv Adventure", posMedia);
+
+				// Cek apakah pengunjung datang dari '24.jpg'?
+				if (previousPanorama === '24.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 26
+					// Koordinat diambil dari Vector3 hotspot ke 26 di atas
+					camera.lookAt(-397.02, -33.53, -25.58);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(-397.02, -33.53, -25.58).normalize();
+					controls.update();
+				}
 			}
 
 			if (panorama === '26.jpg') {
@@ -1017,6 +1261,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.4830698730866, -31.1762985157612, 4.527464228942318), () => {
 					switchPanorama('27.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-473.22, -81.11, 137.14);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/kuliner-1.png',
+						audio: 'audio/kuliner-1.wav'
+					});
+
+				});
+
+				addTextLabel("Kuliner (1)", posMedia);
 			}
 
 			if (panorama === '27.jpg') {
@@ -1026,6 +1282,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-399.37418133356823, -10.636588254901655, 2.139444045535691), () => {
 					switchPanorama('28.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-478.97, -68.32, -122.42);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/kuliner-2.png',
+						audio: 'audio/kuliner-2.wav'
+					});
+
+				});
+
+				addTextLabel("Kuliner (2)", posMedia);
 			}
 
 			if (panorama === '28.jpg') {
@@ -1229,13 +1497,15 @@
 
 
 		function switchPanorama(panoramaName) {
-			if (currentPanorama === panoramaName) return; // Hindari reload panorama yang sama
+			if (currentPanorama === panoramaName) return;
+
+			previousPanorama = currentPanorama; // <--- SIMPAN LOG HISTORY DISINI
 
 			overlay.style.pointerEvents = 'auto';
 			overlay.style.opacity = '1';
 			overlay.textContent = 'Loading...';
 
-			container.style.opacity = '0'; // Fade out panorama saat ini
+			container.style.opacity = '0';
 
 			setTimeout(() => {
 				new THREE.TextureLoader().load(`panoramas/${panoramaName}`, (tex) => {
@@ -1244,11 +1514,11 @@
 					currentPanorama = panoramaName;
 					loadHotspotsFor(currentPanorama);
 
-					container.style.opacity = '1'; // Fade in panorama baru
+					container.style.opacity = '1';
 					overlay.style.opacity = '0';
 					overlay.style.pointerEvents = 'none';
 				});
-			}, 500); // Durasi fade out (harus sama dengan transisi CSS)
+			}, 500);
 		}
 
 		function addHotspot(imageUrl, position, onClickCallback) {
