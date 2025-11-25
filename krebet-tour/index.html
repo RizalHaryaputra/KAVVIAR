@@ -684,7 +684,7 @@
 			/*panoramas*/
 
 			if (panorama === '1.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.1211475957762, -58.30213318829353, -6.678901876416617), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-395.1211475957762, -58.30213318829353, -6.678901876416617), () => {
 					switchPanorama('2.jpg');
 				});
 
@@ -693,7 +693,11 @@
 
 				// 2. Tambahkan Icon Hotspot (Info/Gambar)
 				addHotspot('images/image.png', posMedia, () => {
-					showMedia(1, 'images/selamat-datang.png');
+					showMedia(6, {
+						image: 'images/selamat-datang.png',
+						audio: 'audio/gamelan.mp3'
+					});
+
 				});
 
 				// 3. Tambahkan Label Teks di posisi yang sama (Fungsi akan otomatis menaikkan posisinya sedikit)
@@ -701,10 +705,10 @@
 			}
 
 			if (panorama === '2.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(394.5380744600368, -62.277819101636496, -9.101288274622458), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(394.5380744600368, -62.277819101636496, -9.101288274622458), () => {
 					switchPanorama('1.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.5892730140249, -33.489342909172414, -14.93381336018405), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.5892730140249, -33.489342909172414, -14.93381336018405), () => {
 					switchPanorama('4.jpg');
 				});
 
@@ -718,27 +722,27 @@
 			}
 
 			if (panorama === '3.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(395.8346232878345, -53.4697473632319, -3.95549334440982), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(395.8346232878345, -53.4697473632319, -3.95549334440982), () => {
 					switchPanorama('4.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-392.6863823097462, -51.77601937286917, -49.85805093466901), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-392.6863823097462, -51.77601937286917, -49.85805093466901), () => {
 					switchPanorama('5.jpg');
 				});
 
 				let posMedia = new THREE.Vector3(-484.55, -67.73, 101.14);
 
-				addHotspot('images/video.png', posMedia, () => {
-					showMedia(2, 'videos/mars.mp4');
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(1, 'images/lokasi-krebet.png');
 				});
 
-				addTextLabel("Mars Krebet", posMedia);
+				addTextLabel("Lokasi Krebet", posMedia);
 			}
 
 			if (panorama === '4.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(396.5404938553538, -47.441896669903784, -3.8605045767290793), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(396.5404938553538, -47.441896669903784, -3.8605045767290793), () => {
 					switchPanorama('2.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.79459154752885, -49.895887862517846, -11.40842825630297), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-395.79459154752885, -49.895887862517846, -11.40842825630297), () => {
 					switchPanorama('3.jpg');
 				});
 
@@ -752,16 +756,16 @@
 			}
 
 			if (panorama === '5.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(61.66867499833077, -61.80551619818436, 389.6327924916461), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(61.66867499833077, -61.80551619818436, 389.6327924916461), () => {
 					switchPanorama('3.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-482.94, -33.24, -121.80), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-482.94, -33.24, -121.80), () => {
 					switchPanorama('6.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-117.98691115406146, -45.230478016162486, -378.82184027339326), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-117.98691115406146, -45.230478016162486, -378.82184027339326), () => {
 					switchPanorama('36.jpg');
 				});
-				
+
 				let posMedia = new THREE.Vector3(-425.43, -57.54, -254.88);
 
 				addHotspot('images/video.png', posMedia, () => {
@@ -772,85 +776,101 @@
 			}
 
 			if (panorama === '6.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(497.82, -22.76, -24.60	), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(497.82, -22.76, -24.60), () => {
 					switchPanorama('5.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-497.01, -42.90, -19.33), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-497.01, -42.90, -19.33), () => {
 					switchPanorama('7.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-476.38, -64.36, 133.92);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(2, 'videos/mars.mp4');
+				});
+
+				addTextLabel("Mars Krebet", posMedia);
 			}
 
 			if (panorama === '7.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(497.04, -35.08, -30.12), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(497.04, -35.08, -30.12), () => {
 					switchPanorama('6.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-496.88, -35.38, -33.05), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-496.88, -35.38, -33.05), () => {
 					switchPanorama('8.jpg');
 				});
 				addHotspot('images/default.png', new THREE.Vector3(116.91, -41.73, 483.70), () => {
 					switchPanorama('7detail.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-467.04, -57.63, -166.26);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(1, 'images/sejarah-krebet.png');
+				});
+
+				addTextLabel("Struktur Pengurus", posMedia);
 			}
 
 			if (panorama === '8.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-392.87867365960165, -35.08654993643134, 61.188635603555355), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-392.87867365960165, -35.08654993643134, 61.188635603555355), () => {
 					switchPanorama('7.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(392.5151459881588, -32.123971930117165, -65.90820289522986), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(392.5151459881588, -32.123971930117165, -65.90820289522986), () => {
 					switchPanorama('9.jpg');
 				});
 			}
 
 			if (panorama === '9.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.4883388539014, -40.91152677500579, 1.3050374708259667), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.4883388539014, -40.91152677500579, 1.3050374708259667), () => {
 					switchPanorama('8.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(396.82695321427406, -42.714246732798024, -8.378751082502653), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(396.82695321427406, -42.714246732798024, -8.378751082502653), () => {
 					switchPanorama('10.jpg');
 				});
 			}
 
 			if (panorama === '10.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.1627280812348, -49.03973911196566, -6.918595700328251), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-396.1627280812348, -49.03973911196566, -6.918595700328251), () => {
 					switchPanorama('9.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.3747397865625, -28.088616139342676, -7.8152692098604435), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.3747397865625, -28.088616139342676, -7.8152692098604435), () => {
 					switchPanorama('11.jpg');
 				});
 			}
 
 			if (panorama === '11.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.1492929043092, -32.935909679327615, -6.603417464370811), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.1492929043092, -32.935909679327615, -6.603417464370811), () => {
 					switchPanorama('10.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.6227133568862, -28.934295648438344, -3.3885490622611028), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.6227133568862, -28.934295648438344, -3.3885490622611028), () => {
 					switchPanorama('12.jpg');
 				});
 			}
 
 			if (panorama === '12.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.1145009874327, -44.394456051394926, 0.5660747735663693), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.1145009874327, -44.394456051394926, 0.5660747735663693), () => {
 					switchPanorama('11.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.23869155330203, -30.275330148880496, -8.955505676379701), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.23869155330203, -30.275330148880496, -8.955505676379701), () => {
 					switchPanorama('13.jpg');
 				});
 			}
 
 			if (panorama === '13.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.60879752542644, -38.278684053624644, -4.499160257057407), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.60879752542644, -38.278684053624644, -4.499160257057407), () => {
 					switchPanorama('12.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.2593831898714, -26.129839581669785, -10.802312607238228), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.2593831898714, -26.129839581669785, -10.802312607238228), () => {
 					switchPanorama('14.jpg');
 				});
 			}
 
 			if (panorama === '14.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-379.47328847530406, -54.674630211379636, -111.10770100475202), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-379.47328847530406, -54.674630211379636, -111.10770100475202), () => {
 					switchPanorama('13.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(384.33239247622254, -19.942304947289568, 105.19335570748935), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(384.33239247622254, -19.942304947289568, 105.19335570748935), () => {
 					switchPanorama('15.jpg');
 				});
 				addHotspot('images/default.png', new THREE.Vector3(149.87335597224137, -48.69326294711453, -366.62638983343334), () => {
@@ -859,28 +879,28 @@
 			}
 
 			if (panorama === '15.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.142566063043, -35.06794385384181, 2.4066765233374197), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.142566063043, -35.06794385384181, 2.4066765233374197), () => {
 					switchPanorama('14.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.2458875650511, -25.27613682105101, -11.514073969148814), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.2458875650511, -25.27613682105101, -11.514073969148814), () => {
 					switchPanorama('16.jpg');
 				});
 			}
 
 			if (panorama === '16.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.2220889397929, -34.15959378765106, -2.9570761379624195), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.2220889397929, -34.15959378765106, -2.9570761379624195), () => {
 					switchPanorama('15.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(396.11314329985345, -46.315992055249964, -13.180146894113788), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(396.11314329985345, -46.315992055249964, -13.180146894113788), () => {
 					switchPanorama('17.jpg');
 				});
 			}
 
 			if (panorama === '17.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.6112586269634, -35.30682194712261, -10.559201282964633), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.6112586269634, -35.30682194712261, -10.559201282964633), () => {
 					switchPanorama('16.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.43024723597716, -32.21719220633643, -3.568502041743024), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.43024723597716, -32.21719220633643, -3.568502041743024), () => {
 					switchPanorama('18.jpg');
 				});
 				addHotspot('images/default.png', new THREE.Vector3(38.998518489100064, -45.8670443960453, -394.90088078753354), () => {
@@ -889,19 +909,19 @@
 			}
 
 			if (panorama === '18.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.41714133352644, -55.38125252218747, -7.189102221036563), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-395.41714133352644, -55.38125252218747, -7.189102221036563), () => {
 					switchPanorama('17.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(397.6785279932817, -33.8763419893442, -12.503116085424505), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.6785279932817, -33.8763419893442, -12.503116085424505), () => {
 					switchPanorama('19.jpg');
 				});
 			}
 
 			if (panorama === '19.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.7337833814239, -46.472343725531935, -2.6233905971952884), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-396.7337833814239, -46.472343725531935, -2.6233905971952884), () => {
 					switchPanorama('18.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.1486325980936, -27.923462172532346, -11.710825514282302), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.1486325980936, -27.923462172532346, -11.710825514282302), () => {
 					switchPanorama('20.jpg');
 				});
 				addHotspot('images/default.png', new THREE.Vector3(322.93011164825896, -35.68505412231108, 232.86084219618672), () => {
@@ -910,160 +930,160 @@
 			}
 
 			if (panorama === '20.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.3756436333547, -33.43915291093163, -1.984993872885489), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.3756436333547, -33.43915291093163, -1.984993872885489), () => {
 					switchPanorama('19.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.22160468515875, -28.539594727249728, -10.136864315263331), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.22160468515875, -28.539594727249728, -10.136864315263331), () => {
 					switchPanorama('21.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(79.45119152078175, -41.41427870775153, 389.2920910835395), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(79.45119152078175, -41.41427870775153, 389.2920910835395), () => {
 					switchPanorama('20a.jpg');
 				});
 			}
 
 			if (panorama === '21.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.9272138755349, -36.759663688001076, -2.4562772228687693), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.9272138755349, -36.759663688001076, -2.4562772228687693), () => {
 					switchPanorama('20.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.7164135289004, -20.68082093123019, -6.322292670404325), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.7164135289004, -20.68082093123019, -6.322292670404325), () => {
 					switchPanorama('22.jpg');
 				});
 			}
 
 			if (panorama === '22.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.84710192784564, -26.859700033306822, 0.9133794311457881), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.84710192784564, -26.859700033306822, 0.9133794311457881), () => {
 					switchPanorama('21.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.22079022965903, -25.129546461154874, -12.02979907108285), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.22079022965903, -25.129546461154874, -12.02979907108285), () => {
 					switchPanorama('23.jpg');
 				});
 			}
 
 			if (panorama === '23.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.23921711475396, -39.36328871563159, -8.328526036892162), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.23921711475396, -39.36328871563159, -8.328526036892162), () => {
 					switchPanorama('22.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(397.93111373989836, -12.95891196295557, -25.866523348113716), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.93111373989836, -12.95891196295557, -25.866523348113716), () => {
 					switchPanorama('24.jpg');
 				});
 			}
 
 			if (panorama === '24.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(396.34259765177865, -34.46318404654508, 37.928726411899326), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(396.34259765177865, -34.46318404654508, 37.928726411899326), () => {
 					switchPanorama('23.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(51.961713068871404, -74.6681684052456, -388.60617779267716), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(51.961713068871404, -74.6681684052456, -388.60617779267716), () => {
 					switchPanorama('25.jpg');
 				});
 			}
 
 			if (panorama === '25.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(389.9533233666603, -43.52177879779612, -73.28463928974568), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(389.9533233666603, -43.52177879779612, -73.28463928974568), () => {
 					switchPanorama('24.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.02161729153505, -33.533502831398636, -25.58608568827298), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.02161729153505, -33.533502831398636, -25.58608568827298), () => {
 					switchPanorama('26.jpg');
 				});
 			}
 
 			if (panorama === '26.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.1575083478701, -31.243233411987422, -9.833416886619945), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.1575083478701, -31.243233411987422, -9.833416886619945), () => {
 					switchPanorama('25.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.4830698730866, -31.1762985157612, 4.527464228942318), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.4830698730866, -31.1762985157612, 4.527464228942318), () => {
 					switchPanorama('27.jpg');
 				});
 			}
 
 			if (panorama === '27.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.96586323340284, -14.630944861092434, 6.009312200243807), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.96586323340284, -14.630944861092434, 6.009312200243807), () => {
 					switchPanorama('26.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-399.37418133356823, -10.636588254901655, 2.139444045535691), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-399.37418133356823, -10.636588254901655, 2.139444045535691), () => {
 					switchPanorama('28.jpg');
 				});
 			}
 
 			if (panorama === '28.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.605807748504, -15.972711192421004, -11.112480649366587), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.605807748504, -15.972711192421004, -11.112480649366587), () => {
 					switchPanorama('27.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-399.18434635095895, -17.556380183201423, 0.7629647608294856), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-399.18434635095895, -17.556380183201423, 0.7629647608294856), () => {
 					switchPanorama('29.jpg');
 				});
 			}
 
 			if (panorama === '29.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(399.5385726739427, -7.354197713696466, 1.8028746375861835), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(399.5385726739427, -7.354197713696466, 1.8028746375861835), () => {
 					switchPanorama('28.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.36403242217784, -37.72931242661478, 9.619574773684048), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.36403242217784, -37.72931242661478, 9.619574773684048), () => {
 					switchPanorama('30.jpg');
 				});
 			}
 
 			if (panorama === '30.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.7902794014274, -28.77119881769095, 0.8555389533038369), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.7902794014274, -28.77119881769095, 0.8555389533038369), () => {
 					switchPanorama('29.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.1397817745774, -35.948207406012685, -0.7365131135227659), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.1397817745774, -35.948207406012685, -0.7365131135227659), () => {
 					switchPanorama('31.jpg');
 				});
 			}
 
 			if (panorama === '31.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.2904675011955, -27.716025133493464, 9.413337762522051), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.2904675011955, -27.716025133493464, 9.413337762522051), () => {
 					switchPanorama('30.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.0164939689107, -10.002261789573334, -26.652351120893844), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.0164939689107, -10.002261789573334, -26.652351120893844), () => {
 					switchPanorama('32.jpg');
 				});
 			}
 
 			if (panorama === '32.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-264.3162766395978, -22.805370340004817, -298.6762295368228), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-264.3162766395978, -22.805370340004817, -298.6762295368228), () => {
 					switchPanorama('31.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-379.0035815975044, -20.35878844212866, 124.822546428012), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-379.0035815975044, -20.35878844212866, 124.822546428012), () => {
 					switchPanorama('33.jpg');
 				});
 			}
 
 			if (panorama === '33.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.65305232127207, -25.871103854557305, -4.4590244374591546), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.65305232127207, -25.871103854557305, -4.4590244374591546), () => {
 					switchPanorama('32.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.77267040194437, -18.132482280878172, -6.939524042517586), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.77267040194437, -18.132482280878172, -6.939524042517586), () => {
 					switchPanorama('33a.jpg');
 				});
 			}
 
 			if (panorama === '34.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.3457598626258, -29.817333000518882, -7.411376568996783), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.3457598626258, -29.817333000518882, -7.411376568996783), () => {
 					switchPanorama('33a.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(397.6590692605958, -22.49578649889834, -24.058503545982965), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.6590692605958, -22.49578649889834, -24.058503545982965), () => {
 					switchPanorama('35.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-269.0031677305906, -63.11532185599586, 288.68695894939924), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-269.0031677305906, -63.11532185599586, 288.68695894939924), () => {
 					switchPanorama('20f.jpg');
 				});
 			}
 
 			if (panorama === '35.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.9708326706874, -18.424992763371854, -3.578313020750004), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.9708326706874, -18.424992763371854, -3.578313020750004), () => {
 					switchPanorama('36.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-399.13187000864116, 8.490052798798187, 7.49623871990152), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-399.13187000864116, 8.490052798798187, 7.49623871990152), () => {
 					switchPanorama('34.jpg');
 				});
 			}
 
 			if (panorama === '36.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-398.3408707004333, -34.60629116357516, -0.2424996380508957), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.3408707004333, -34.60629116357516, -0.2424996380508957), () => {
 					switchPanorama('35.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(397.53811530027275, -31.35968336446192, -20.86038874718258), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.53811530027275, -31.35968336446192, -20.86038874718258), () => {
 					switchPanorama('5.jpg');
 				});
 			}
@@ -1093,79 +1113,79 @@
 			}
 
 			if (panorama === '20a.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.072442471476, -27.62817468277715, -13.19360383360185), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.072442471476, -27.62817468277715, -13.19360383360185), () => {
 					switchPanorama('20.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.24340385216095, -39.50987621026875, 7.960404456262008), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.24340385216095, -39.50987621026875, 7.960404456262008), () => {
 					switchPanorama('20b.jpg');
 				});
 			}
 
 			if (panorama === '20b.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(141.0686072295091, -2.366163042857753, -373.4519102848381), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(141.0686072295091, -2.366163042857753, -373.4519102848381), () => {
 					switchPanorama('20a.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-70.99779750161976, -45.40751432246722, 390.0720351269964), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-70.99779750161976, -45.40751432246722, 390.0720351269964), () => {
 					switchPanorama('20c.jpg');
 				});
 			}
 
 			if (panorama === '20c.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-152.19080922417444, -45.724791241547926, -366.1272309301679), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-152.19080922417444, -45.724791241547926, -366.1272309301679), () => {
 					switchPanorama('20b.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(335.4276966716505, -7.700708161764645, -216.0016308460382), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(335.4276966716505, -7.700708161764645, -216.0016308460382), () => {
 					switchPanorama('28.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-367.14415784719927, -50.365763294498535, 147.95466187847296), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-367.14415784719927, -50.365763294498535, 147.95466187847296), () => {
 					switchPanorama('20d.jpg');
 				});
 			}
 
 			if (panorama === '20d.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(397.6452535318715, -32.58350482883361, -15.995818402137441), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.6452535318715, -32.58350482883361, -15.995818402137441), () => {
 					switchPanorama('20c.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.08584809591684, -42.49261412382904, -22.114275843606016), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-396.08584809591684, -42.49261412382904, -22.114275843606016), () => {
 					switchPanorama('20e.jpg');
 				});
 			}
 
 			if (panorama === '20e.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.60380766056824, -14.124772940513214, -12.407650541125657), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.60380766056824, -14.124772940513214, -12.407650541125657), () => {
 					switchPanorama('20d.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.3424371832099, -37.20719380429635, -30.122324585499236), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-396.3424371832099, -37.20719380429635, -30.122324585499236), () => {
 					switchPanorama('20f.jpg');
 				});
 			}
 
 			if (panorama === '20f.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.15427303796906, -22.73444539585398, -51.8288945867126), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-395.15427303796906, -22.73444539585398, -51.8288945867126), () => {
 					switchPanorama('20e.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(397.39332585067353, -23.378088963149224, -28.870217651435706), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.39332585067353, -23.378088963149224, -28.870217651435706), () => {
 					switchPanorama('34.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-20.040501127802443, -28.70389226413612, 397.6616012521545), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-20.040501127802443, -28.70389226413612, 397.6616012521545), () => {
 					switchPanorama('17.jpg');
 				});
 			}
 
 			if (panorama === '33a.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(322.17836355408696, -1.44219067041946, 236.72440626072358), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(322.17836355408696, -1.44219067041946, 236.72440626072358), () => {
 					switchPanorama('33.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-283.6033152186592, -2.238369447094315, -280.96150795074504), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-283.6033152186592, -2.238369447094315, -280.96150795074504), () => {
 					switchPanorama('34.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-324.2599941537418, -45.75497259227406, 228.46759023700926), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(-324.2599941537418, -45.75497259227406, 228.46759023700926), () => {
 					switchPanorama('37.jpg');
 				});
 			}
 
 			if (panorama === '37.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(398.9287722777255, -5.940265106711649, 12.852195363010232), () => {
+				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.9287722777255, -5.940265106711649, 12.852195363010232), () => {
 					switchPanorama('33a.jpg');
 				});
 			}
@@ -1392,64 +1412,66 @@
 
 		function showMedia(type, content) {
 			const modalContent = document.getElementById('modalMediaContent');
-			// Inisialisasi Modal Bootstrap
-			// Pastikan elemen modalMedia ada di HTML body Anda
 			const myModalElement = document.getElementById('modalMedia');
 			const myModal = new bootstrap.Modal(myModalElement);
+
+			// Akses elemen Audio Backsound
+			const bgAudio = document.getElementById("bgAudio");
+
+			// --- LOGIKA 1: PAUSE BACKSOUND SEMENTARA ---
+			// Cek apakah backsound sedang 'ON' (isPlaying true) 
+			// DAN tipe konten adalah multimedia bersuara (2=Video, 3=Audio, 5=Youtube, 6=Img+Audio)
+			let needToResume = false;
+
+			if (isPlaying && (type === 2 || type === 3 || type === 5 || type === 6)) {
+				bgAudio.pause();
+				needToResume = true; // Tandai bahwa nanti harus dinyalakan lagi
+			}
 
 			let html = '';
 
 			switch (type) {
-				case 1:
-					// Image
+				case 1: // Image Only
 					html = `<img src="${content}" class="img-fluid rounded" style="max-height: 70vh;" alt="Detail Info">`;
 					break;
-				case 2:
-					// Video Lokal (MP4 File)
-					html = `
-                <div class="ratio ratio-16x9">
-                    <video controls autoplay style="width: 100%; height: 100%;">
-                        <source src="${content}" type="video/mp4"> 
-                        Browser anda tidak mendukung video.
-                    </video>
-                </div>`;
+				case 2: // Video File
+					html = `<div class="ratio ratio-16x9"><video controls autoplay style="width: 100%; height: 100%;"><source src="${content}" type="video/mp4">Browser anda tidak mendukung video.</video></div>`;
 					break;
-				case 3:
-					// Audio
-					html = `
-                <div class="p-5 text-white">
-                    <i class="fa-solid fa-music fa-3x mb-3 text-warning"></i><br>
-                    <audio controls autoplay style="width: 100%;">
-                        <source src="${content}" type="audio/ogg">
-                        <source src="${content}" type="audio/mpeg">
-                        Your browser does not support the audio tag.
-                    </audio>
-                </div>`;
+				case 3: // Audio Only
+					html = `<div class="p-5 text-white"><i class="fa-solid fa-music fa-3x mb-3 text-warning"></i><br><audio controls autoplay style="width: 100%;"><source src="${content}" type="audio/mpeg"></audio></div>`;
 					break;
-				case 4:
-					// PDF / Iframe External
+				case 4: // PDF/Iframe
 					html = `<iframe src="${content}" style="width: 100%; height: 500px; border: none;"></iframe>`;
 					break;
-				case 5:
-					// YOUTUBE VIDEO (NEW)
-					// Menggunakan class ratio-16x9 dari Bootstrap agar responsif
+				case 5: // Youtube
+					html = `<div class="ratio ratio-16x9"><iframe src="${content}" title="YouTube video player" allowfullscreen></iframe></div>`;
+					break;
+				case 6: // Image + Audio
 					html = `
-                <div class="ratio ratio-16x9">
-                    <iframe src="${content}" title="YouTube video player" allowfullscreen></iframe>
+                <div class="d-flex flex-column align-items-center w-100">
+                    <img src="${content.image}" class="img-fluid rounded mb-3" style="max-height: 55vh; width: auto;" alt="Detail Image">
+                    <div class="w-100 p-3 rounded" style="background: rgba(255,255,255,0.1);">
+                        <!-- <p class="text-white mb-2"><i class="fa-solid fa-circle-play me-2 text-warning"></i>Putar Penjelasan:</p> -->
+                        <audio controls autoplay style="width: 100%;">
+                            <source src="${content.audio}" type="audio/mpeg">
+                            <source src="${content.audio}" type="audio/ogg">
+                        </audio>
+                    </div>
                 </div>`;
 					break;
 			}
 
-			// Masukkan konten ke modal body
 			modalContent.innerHTML = html;
-
-			// Tampilkan Modal
 			myModal.show();
 
-			// PENTING: Event listener untuk menghentikan Video/Audio saat modal ditutup
-			// Kita gunakan { once: true } agar listener tidak menumpuk setiap kali diklik
+			// --- LOGIKA 2: RESUME BACKSOUND SAAT TUTUP ---
 			myModalElement.addEventListener('hidden.bs.modal', function () {
-				modalContent.innerHTML = ''; // Menghapus iframe/video akan otomatis mematikan suaranya
+				modalContent.innerHTML = ''; // Hapus konten agar video/audio modal mati total
+
+				// Jika tadi dimatikan paksa, dan status musik global masih ON, nyalakan lagi
+				if (needToResume && isPlaying) {
+					bgAudio.play().catch(e => console.log("Resume audio blocked:", e));
+				}
 			}, { once: true });
 		}
 
