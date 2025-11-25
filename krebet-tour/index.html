@@ -616,40 +616,31 @@
 			renderer.domElement.addEventListener('pointermove', onPointerMove, false);
 
 			// Event listener click pada Hotspot
-			document.addEventListener('click', function (event) {
-				// --- POSITION PICKER MODE ---
-				if (pickerMode) {
-					const mousePos = new THREE.Vector2(
-						(event.clientX / window.innerWidth) * 2 - 1,
-						-(event.clientY / window.innerHeight) * 2 + 1
-					);
+			// --- LOGIKA INTERAKSI (MOUSE & TOUCH) YANG AMAN ---
 
-					const pickerRay = new THREE.Raycaster();
-					pickerRay.setFromCamera(mousePos, camera);
+			let isDragging = false;
+			let startX = 0;
+			let startY = 0;
 
-					const intersects = pickerRay.intersectObject(panoramaMesh);
+			// 1. Deteksi awal sentuhan/klik
+			document.addEventListener('pointerdown', function (event) {
+				isDragging = false;
+				startX = event.clientX;
+				startY = event.clientY;
+			});
 
-					if (intersects.length > 0) {
-						const point = intersects[0].point;
-
-						// Tampilkan Marker Visual (Anti-potong)
-						placePickerMarker(point);
-
-						// FORMAT COPY-PASTE SIAP PAKAI
-						const coords = `new THREE.Vector3(${point.x.toFixed(2)}, ${point.y.toFixed(2)}, ${point.z.toFixed(2)})`;
-
-						console.log("%c📍 KOORDINAT DITEMUKAN:", "color: #00ff00; font-weight: bold; font-size: 14px;");
-						console.log(coords);
-
-						// (Opsional) Munculkan alert agar tidak perlu buka inspect element terus
-						// alert("Koordinat: " + coords); 
-					}
-
-					return;
+			// 2. Deteksi gerakan (Apakah user sedang menggeser layar?)
+			document.addEventListener('pointermove', function (event) {
+				// Jika jari/mouse bergerak lebih dari 5 pixel, anggap itu DRAG (bukan klik)
+				if (Math.abs(event.clientX - startX) > 5 || Math.abs(event.clientY - startY) > 5) {
+					isDragging = true;
 				}
+			});
 
-				// FIX: Cek apakah klik terjadi pada element Bootstrap (Modal/Navbar/Tombol)
-				// Jika iya, JANGAN jalankan logika klik hotspot/panorama
+			// 3. Eksekusi saat jari/mouse diangkat (Hanya jika TIDAK drag)
+			document.addEventListener('pointerup', function (event) {
+
+				// A. Filter: Jangan jalan kalau klik di atas UI (Navbar/Modal/Tombol)
 				if (event.target.closest('.navbar') ||
 					event.target.closest('.floating-controls') ||
 					event.target.closest('.modal') ||
@@ -657,17 +648,43 @@
 					return;
 				}
 
+				// B. Filter: Jangan jalan kalau user habis menggeser layar (Drag)
+				if (isDragging) return;
+
+				// --- C. LOGIKA PICKER MODE (DEV TOOL) ---
+				if (pickerMode) {
+					const mousePos = new THREE.Vector2(
+						(event.clientX / window.innerWidth) * 2 - 1,
+						-(event.clientY / window.innerHeight) * 2 + 1
+					);
+					const pickerRay = new THREE.Raycaster();
+					pickerRay.setFromCamera(mousePos, camera);
+					const intersects = pickerRay.intersectObject(panoramaMesh);
+
+					if (intersects.length > 0) {
+						const point = intersects[0].point;
+						placePickerMarker(point);
+						const coords = `new THREE.Vector3(${point.x.toFixed(2)}, ${point.y.toFixed(2)}, ${point.z.toFixed(2)})`;
+						console.log("%c📍 KOORDINAT:", "color: #00ff00;", coords);
+					}
+					return;
+				}
+
+				// --- D. LOGIKA HOTSPOT CLICK ---
 				const mouseClick = new THREE.Vector2(
 					(event.clientX / window.innerWidth) * 2 - 1,
 					-(event.clientY / window.innerHeight) * 2 + 1
 				);
+
 				const clickRaycaster = new THREE.Raycaster();
 				clickRaycaster.setFromCamera(mouseClick, camera);
 				const intersects = clickRaycaster.intersectObjects(spriteHotspots);
 
 				if (intersects.length > 0) {
 					const clicked = intersects[0].object;
-					if (clicked.userData.onClick) clicked.userData.onClick();
+					if (clicked.userData.onClick) {
+						clicked.userData.onClick();
+					}
 				}
 			});
 		}
@@ -1494,8 +1511,6 @@
 			/*panoramas-end*/
 		}
 
-
-
 		function switchPanorama(panoramaName) {
 			if (currentPanorama === panoramaName) return;
 
@@ -1825,11 +1840,23 @@
 
 		// 5. FULLSCREEN
 		function toggleFullscreen() {
-			if (!document.fullscreenElement) {
-				document.documentElement.requestFullscreen();
+			const doc = window.document;
+			const docEl = doc.documentElement;
+
+			const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+			const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+			if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+				// Masuk Fullscreen
+				if (requestFullScreen) {
+					requestFullScreen.call(docEl);
+				} else {
+					alert("Maaf, browser HP Anda tidak mendukung fitur Fullscreen otomatis.");
+				}
 			} else {
-				if (document.exitFullscreen) {
-					document.exitFullscreen();
+				// Keluar Fullscreen
+				if (cancelFullScreen) {
+					cancelFullScreen.call(doc);
 				}
 			}
 		}
