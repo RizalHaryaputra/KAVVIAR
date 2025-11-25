@@ -328,8 +328,6 @@
 				transform: rotate(360deg);
 			}
 		}
-
-		
 	</style>
 
 	<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
@@ -345,7 +343,7 @@
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-glass overlay-ui">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#"><i class="fa-solid fa-mask me-2"></i>KAVVIAR</a>
+			<a class="navbar-brand" href="/"><i class="fa-solid fa-mask me-2"></i>KAVVIAR</a>
 			<button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -543,8 +541,8 @@
 		let scene, camera, renderer, controls;
 		let spriteHotspots = [];
 		let panoramaMesh;
-		let targetFov = 75;
-		let initialFov = 75;
+		let targetFov = 70;
+		let initialFov = 70;
 		let initialPinchDistance = null;
 		const overlay = document.getElementById('overlay');
 		const raycaster = new THREE.Raycaster();
@@ -558,8 +556,8 @@
 		function init() {
 			const container = document.getElementById('container');
 			scene = new THREE.Scene();
-			camera = new THREE.PerspectiveCamera(targetFov, container.clientWidth / container.clientHeight, 0.1, 1000);
-			camera.position.set(0, 0, 0.1);
+			camera = new THREE.PerspectiveCamera(20, container.clientWidth / container.clientHeight, 0.1, 1000);
+			camera.position.set(0.1, -0.035, 0);
 
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setSize(container.clientWidth, container.clientHeight);
@@ -587,7 +585,7 @@
 				scene.add(panoramaMesh);
 				loadHotspotsFor('1.jpg');
 
-				// 2. UPDATE: Tahan Loading Screen selama 3 Detik (3000ms)
+				// 2. UPDATE: Tahan Loading Screen selama 2 Detik (2000ms)
 				setTimeout(() => {
 					const loaderScreen = document.getElementById('global-loader');
 					if (loaderScreen) {
@@ -599,7 +597,7 @@
 							loaderScreen.style.display = 'none';
 						}, 500);
 					}
-				}, 3000); // <-- Angka 3000 ini adalah 3 detik
+				}, 2000); // <-- Angka 2000 ini adalah 2 detik
 
 			},
 				// onProgress
@@ -709,6 +707,14 @@
 				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.5892730140249, -33.489342909172414, -14.93381336018405), () => {
 					switchPanorama('4.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-463.95, -43.89, 178.85);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(1, 'images/tentang-krebet.png');
+				});
+
+				addTextLabel("Tentang Krebet", posMedia);
 			}
 
 			if (panorama === '3.jpg') {
@@ -718,6 +724,14 @@
 				addHotspot('images/whitetilted.png', new THREE.Vector3(-392.6863823097462, -51.77601937286917, -49.85805093466901), () => {
 					switchPanorama('5.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-484.55, -67.73, 101.14);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(2, 'videos/mars.mp4');
+				});
+
+				addTextLabel("Mars Krebet", posMedia);
 			}
 
 			if (panorama === '4.jpg') {
@@ -727,37 +741,53 @@
 				addHotspot('images/whitetilted.png', new THREE.Vector3(-395.79459154752885, -49.895887862517846, -11.40842825630297), () => {
 					switchPanorama('3.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-469.31, -57.45, -160.39);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(1, 'images/sejarah-krebet.png');
+				});
+
+				addTextLabel("Sejarah Krebet", posMedia);
 			}
 
 			if (panorama === '5.jpg') {
 				addHotspot('images/whitetilted.png', new THREE.Vector3(61.66867499833077, -61.80551619818436, 389.6327924916461), () => {
 					switchPanorama('3.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-384.8890318091611, -39.718722379276755, -97.64536944325718), () => {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-482.94, -33.24, -121.80), () => {
 					switchPanorama('6.jpg');
 				});
 				addHotspot('images/whitetilted.png', new THREE.Vector3(-117.98691115406146, -45.230478016162486, -378.82184027339326), () => {
 					switchPanorama('36.jpg');
 				});
+				
+				let posMedia = new THREE.Vector3(-425.43, -57.54, -254.88);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(5, 'https://www.youtube.com/embed/mKU3PBr2ARE?si=mv-XKY0gWJtFW6xL');
+				});
+
+				addTextLabel("Video Profil", posMedia);
 			}
 
 			if (panorama === '6.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-397.45598100959114, -35.10471743737409, 13.679148813658122), () => {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(497.82, -22.76, -24.60	), () => {
 					switchPanorama('5.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(395.7199746489469, -38.80971459909284, -39.884786915268464), () => {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-497.01, -42.90, -19.33), () => {
 					switchPanorama('7.jpg');
 				});
 			}
 
 			if (panorama === '7.jpg') {
-				addHotspot('images/whitetilted.png', new THREE.Vector3(-396.12935470786374, -50.15388298041515, 5.351886039107689), () => {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(497.04, -35.08, -30.12), () => {
 					switchPanorama('6.jpg');
 				});
-				addHotspot('images/whitetilted.png', new THREE.Vector3(399.70544844940645, -2.549664396202225, -2.64877939531393), () => {
+				addHotspot('images/whitetilted.png', new THREE.Vector3(-496.88, -35.38, -33.05), () => {
 					switchPanorama('8.jpg');
 				});
-				addHotspot('images/default.png', new THREE.Vector3(-94.04304985365867, -51.09988472056028, -384.46628357671676), () => {
+				addHotspot('images/default.png', new THREE.Vector3(116.91, -41.73, 483.70), () => {
 					switchPanorama('7detail.jpg');
 				});
 			}
