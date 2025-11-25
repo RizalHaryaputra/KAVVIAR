@@ -695,7 +695,7 @@
 				addHotspot('images/image.png', posMedia, () => {
 					showMedia(6, {
 						image: 'images/selamat-datang.png',
-						audio: 'audio/gamelan.mp3'
+						audio: 'audio/selamat-datang.wav'
 					});
 
 				});
@@ -715,7 +715,11 @@
 				let posMedia = new THREE.Vector3(-463.95, -43.89, 178.85);
 
 				addHotspot('images/image.png', posMedia, () => {
-					showMedia(1, 'images/tentang-krebet.png');
+					showMedia(6, {
+						image: 'images/tentang-krebet.png',
+						audio: 'audio/tentang-krebet.wav'
+					});
+
 				});
 
 				addTextLabel("Tentang Krebet", posMedia);
@@ -732,7 +736,11 @@
 				let posMedia = new THREE.Vector3(-484.55, -67.73, 101.14);
 
 				addHotspot('images/image.png', posMedia, () => {
-					showMedia(1, 'images/lokasi-krebet.png');
+					showMedia(6, {
+						image: 'images/lokasi-krebet.png',
+						audio: 'audio/lokasi-krebet.wav'
+					});
+
 				});
 
 				addTextLabel("Lokasi Krebet", posMedia);
@@ -749,7 +757,11 @@
 				let posMedia = new THREE.Vector3(-469.31, -57.45, -160.39);
 
 				addHotspot('images/image.png', posMedia, () => {
-					showMedia(1, 'images/sejarah-krebet.png');
+					showMedia(6, {
+						image: 'images/sejarah-krebet.png',
+						audio: 'audio/sejarah-krebet.wav'
+					});
+
 				});
 
 				addTextLabel("Sejarah Krebet", posMedia);
@@ -819,6 +831,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(392.5151459881588, -32.123971930117165, -65.90820289522986), () => {
 					switchPanorama('9.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-453.99, -70.56, 195.99);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/paket-wisata.png',
+						audio: 'audio/paket-wisata.wav'
+					});
+
+				});
+
+				addTextLabel("Paket Wisata", posMedia);
 			}
 
 			if (panorama === '9.jpg') {
