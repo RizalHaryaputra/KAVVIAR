@@ -1514,21 +1514,33 @@
 		function switchPanorama(panoramaName) {
 			if (currentPanorama === panoramaName) return;
 
-			previousPanorama = currentPanorama; // <--- SIMPAN LOG HISTORY DISINI
+			previousPanorama = currentPanorama;
 
+			// Tampilkan loading
 			overlay.style.pointerEvents = 'auto';
 			overlay.style.opacity = '1';
 			overlay.textContent = 'Loading...';
 
+			// Fade out container
 			container.style.opacity = '0';
 
 			setTimeout(() => {
+				// --- MEMORY CLEANUP (PENTING UNTUK IOS) ---
+				// Sebelum load baru, hapus texture lama dari memori GPU
+				if (panoramaMesh.material.map) {
+					panoramaMesh.material.map.dispose();
+				}
+				// ------------------------------------------
+
 				new THREE.TextureLoader().load(`panoramas/${panoramaName}`, (tex) => {
+					// Pasang texture baru
 					panoramaMesh.material.map = tex;
 					panoramaMesh.material.needsUpdate = true;
+
 					currentPanorama = panoramaName;
 					loadHotspotsFor(currentPanorama);
 
+					// Fade in kembali
 					container.style.opacity = '1';
 					overlay.style.opacity = '0';
 					overlay.style.pointerEvents = 'none';
