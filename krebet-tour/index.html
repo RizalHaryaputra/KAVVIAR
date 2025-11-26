@@ -376,9 +376,10 @@
 				class="fa-solid fa-map-location-dot"></i></button>
 		<button class="btn btn-circle" onclick="toggleFullscreen()" title="Fullscreen"><i
 				class="fa-solid fa-expand"></i></button>
-		<button class="btn btn-circle" onclick="togglePicker()" title="Position Picker">
+
+		<!-- <button class="btn btn-circle" onclick="togglePicker()" title="Position Picker">
 			<i class="fa-solid fa-crosshairs"></i>
-		</button>
+		</button> -->
 
 	</div>
 
@@ -400,8 +401,8 @@
 					</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+					<ul class="nav nav-tabs" id="myTab" role="tablist" >
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active text-dark" id="pengurus-tab" data-bs-toggle="tab"
 								data-bs-target="#tab-pengurus" type="button" role="tab" aria-controls="tab-pengurus"
@@ -417,13 +418,27 @@
 						<div class="tab-pane fade show active" id="tab-pengurus" role="tabpanel"
 							aria-labelledby="pengurus-tab">
 							<h6>Struktur Pengurus Desa Wisata Krebet</h6>
-							<p>Deskripsi singkat tentang pengelola desa wisata dan visi misinya...</p>
+							<img src="images/struktur-pengurus.png" alt="Pengurus Desa Wisata Krebet"
+								class="img-fluid rounded mb-3">
 						</div>
 						<div class="tab-pane fade" id="tab-kelompok" role="tabpanel" aria-labelledby="kelompok-tab">
 							<ul class="list-group">
-								<li class="list-group-item">Sanggar Peni (Batik Kayu)</li>
-								<li class="list-group-item">Sanggar Punokawan</li>
-								<li class="list-group-item">Kelompok Kuliner Tradisional</li>
+								<li class="list-group-item">Sholawat Jawa Al-HUDA. Krebet RT 01</li>
+								<li class="list-group-item">Sholawat Hadroh . MAHABATUROSUL, Krebet RT 01</li>
+								<li class="list-group-item">Campursari KARNA LARAS, Krebet RT 02</li>
+								<li class="list-group-item">Jathilan ROGO WAHYU MATARAM, Krebet RT 03</li>
+								<li class="list-group-item">Jathilan BEKSA KUDHA MATARAM, Krebet RT 03</li>
+								<li class="list-group-item">Prajuritan, Bregada JATI MANGGALA, Krebet RT 03</li>
+								<li class="list-group-item">Prajuritan, Bregada DEWI MANGGALA, Krebet RT 03</li>
+								<li class="list-group-item">Group Band, GENK DJAROT, Krebet RT 04</li>
+								<li class="list-group-item">Karawitan, PENDOPO LARAS, Krebet RT 04</li>
+								<li class="list-group-item">Kethoprak, EKA MUDHA PUTRA BUDAYA, Krebet RT 04</li>
+								<li class="list-group-item">Sanggar Tari, CATUR SARI, Krebet RT 04</li>
+								<li class="list-group-item">Wayang Polah, Krebet RT 04</li>
+								<li class="list-group-item">Macapat SEKAR ASRI, Krebet RT 04</li>
+								<li class="list-group-item">Karawitan Putri KEMBANG PULOSARI, Krebet RT 04</li>
+								<li class="list-group-item">Jathilan, SRI MUDHA BUDAYA, Krebet RT 05</li>
+								<li class="list-group-item">Sholawat Maulud Gendring MEKAR ASRI, Krebet RT 05</li>
 							</ul>
 						</div>
 					</div>
@@ -465,50 +480,83 @@
 	</div>
 
 	<div class="modal fade" id="modalProduk" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Katalog Produk Batik Kayu</h5>
+					<h5 class="modal-title">Katalog Produk</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="row">
-						<div class="col-md-4 mb-3">
-							<div class="card card-product p-3 h-100">
-								<img src="images/default.png" class="card-img-top" alt="Topeng"
-									style="height:150px; object-fit:contain;">
-								<div class="card-body text-center">
-									<h5 class="card-title">Topeng Batik</h5>
-									<p class="card-text fw-bold text-primary">Rp 150.000</p>
-									<a href="https://wa.me/628123456789?text=Halo" target="_blank"
-										class="btn btn-success w-100"><i class="fa-brands fa-whatsapp"></i> Pesan</a>
+					<div class="swiper mySwiperProduk">
+						<div class="swiper-wrapper">
+
+							<div class="swiper-slide">
+								<div class="card border-0 align-items-center bg-dark" style="width: 100%; max-width: 400px;">
+									<img src="images/produk-1.png" class="card-img-top rounded" alt="Topeng"
+										style="height: 400px; object-fit: contain;">
+									<div class="card-body w-100 bg-dark mb-2">
+										<a href="https://www.tokopedia.com/batikkayukrebet"
+											target="_blank" class="btn w-100 rounded-pill py-2 fw-bold" style="background-color: #A0522D; color: white;">
+											<i class="fa-brands me-2"></i> Pesan Sekarang
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-md-4 mb-3">
-							<div class="card card-product p-3 h-100">
-								<img src="images/default.png" class="card-img-top" alt="Wayang"
-									style="height:150px; object-fit:contain;">
-								<div class="card-body text-center">
-									<h5 class="card-title">Wayang Kayu</h5>
-									<p class="card-text fw-bold text-primary">Rp 250.000</p>
-									<a href="https://wa.me/628123456789?text=Halo" target="_blank"
-										class="btn btn-success w-100"><i class="fa-brands fa-whatsapp"></i> Pesan</a>
+							<div class="swiper-slide">
+								<div class="card border-0 align-items-center bg-dark" style="width: 100%; max-width: 400px;">
+									<img src="images/produk-2.png" class="card-img-top rounded" alt="Topeng"
+										style="height: 400px; object-fit: contain;">
+									<div class="card-body w-100 bg-dark mb-2">
+										<a href="https://www.tokopedia.com/batikkayukrebet"
+											target="_blank" class="btn w-100 rounded-pill py-2 fw-bold" style="background-color: #A0522D; color: white;">
+											<i class="fa-brands me-2"></i> Pesan Sekarang
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-md-4 mb-3">
-							<div class="card card-product p-3 h-100">
-								<img src="images/default.png" class="card-img-top" alt="Souvenir"
-									style="height:150px; object-fit:contain;">
-								<div class="card-body text-center">
-									<h5 class="card-title">Gantungan Kunci</h5>
-									<p class="card-text fw-bold text-primary">Rp 15.000</p>
-									<a href="https://wa.me/628123456789?text=Halo" target="_blank"
-										class="btn btn-success w-100"><i class="fa-brands fa-whatsapp"></i> Pesan</a>
+							<div class="swiper-slide">
+								<div class="card border-0 align-items-center bg-dark" style="width: 100%; max-width: 400px;">
+									<img src="images/produk-3.png" class="card-img-top rounded" alt="Topeng"
+										style="height: 400px; object-fit: contain;">
+									<div class="card-body w-100 bg-dark mb-2">
+										<a href="https://www.tokopedia.com/batikkayukrebet"
+											target="_blank" class="btn w-100 rounded-pill py-2 fw-bold" style="background-color: #A0522D; color: white;">
+											<i class="fa-brands me-2"></i> Pesan Sekarang
+										</a>
+									</div>
 								</div>
 							</div>
+							<div class="swiper-slide">
+								<div class="card border-0 align-items-center bg-dark" style="width: 100%; max-width: 400px;">
+									<img src="images/produk-4.png" class="card-img-top rounded" alt="Topeng"
+										style="height: 400px; object-fit: contain;">
+									<div class="card-body w-100 bg-dark mb-2">
+										<a href="https://www.tokopedia.com/batikkayukrebet"
+											target="_blank" class="btn w-100 rounded-pill py-2 fw-bold" style="background-color: #A0522D; color: white;">
+											<i class="fa-brands me-2"></i> Pesan Sekarang
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="card border-0 align-items-center bg-dark" style="width: 100%; max-width: 400px;">
+									<img src="images/produk-5.png" class="card-img-top rounded" alt="Topeng"
+										style="height: 400px; object-fit: contain;">
+									<div class="card-body w-100 bg-dark mb-2">
+										<a href="https://www.tokopedia.com/batikkayukrebet"
+											target="_blank" class="btn w-100 rounded-pill py-2 fw-bold" style="background-color: #A0522D; color: white;">
+											<i class="fa-brands me-2"></i> Pesan Sekarang
+										</a>
+									</div>
+								</div>
+							</div>
+
+
+
 						</div>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+						<div class="swiper-pagination"></div>
 					</div>
 				</div>
 			</div>
@@ -1320,6 +1368,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-399.18434635095895, -17.556380183201423, 0.7629647608294856), () => {
 					switchPanorama('29.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-477.85, -66.91, 127.27);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/produk-1.png',
+						audio: 'audio/produk-1.wav'
+					});
+
+				});
+
+				addTextLabel("Produk Kerajinan (1)", posMedia);
 			}
 
 			if (panorama === '29.jpg') {
@@ -1329,6 +1389,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-397.36403242217784, -37.72931242661478, 9.619574773684048), () => {
 					switchPanorama('30.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-476.74, -86.30, -120.02);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/produk-2.png',
+						audio: 'audio/produk-2.wav'
+					});
+
+				});
+
+				addTextLabel("Produk Kerajinan (2)", posMedia);
 			}
 
 			if (panorama === '30.jpg') {
@@ -1338,6 +1410,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.1397817745774, -35.948207406012685, -0.7365131135227659), () => {
 					switchPanorama('31.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-479.38, -69.52, 120.35);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/produk-3.png',
+						audio: 'audio/produk-3.wav'
+					});
+
+				});
+
+				addTextLabel("Produk Kerajinan (3)", posMedia);
 			}
 
 			if (panorama === '31.jpg') {
@@ -1347,6 +1431,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.0164939689107, -10.002261789573334, -26.652351120893844), () => {
 					switchPanorama('32.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-472.11, -71.60, -146.52);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/produk-4.png',
+						audio: 'audio/produk-4.wav'
+					});
+
+				});
+
+				addTextLabel("Produk Kerajinan (4)", posMedia);
 			}
 
 			if (panorama === '32.jpg') {
@@ -1356,6 +1452,18 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-379.0035815975044, -20.35878844212866, 124.822546428012), () => {
 					switchPanorama('33.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-485.53, -64.89, -97.10);
+
+				addHotspot('images/image.png', posMedia, () => {
+					showMedia(6, {
+						image: 'images/produk-5.png',
+						audio: 'audio/produk-5.wav'
+					});
+
+				});
+
+				addTextLabel("Produk Kerajinan (5)", posMedia);
 			}
 
 			if (panorama === '33.jpg') {
@@ -1363,20 +1471,58 @@
 					switchPanorama('32.jpg');
 				});
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(398.77267040194437, -18.132482280878172, -6.939524042517586), () => {
-					switchPanorama('33a.jpg');
+					switchPanorama('34.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(481.85, -70.59, -110.63);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(5, 'https://www.youtube.com/embed/mKU3PBr2ARE?si=mv-XKY0gWJtFW6xL');
+				});
+
+				addTextLabel("Kesenian (1)", posMedia);
+
+				// Cek apakah pengunjung datang dari '32.jpg'?
+				if (previousPanorama === '32.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 34
+					// Koordinat diambil dari Vector3 hotspot ke 34 di atas
+					camera.lookAt(398.77267040194437, -18.132482280878172, -6.939524042517586);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(398.77267040194437, -18.132482280878172, -6.939524042517586).normalize();
+					controls.update();
+				}
 			}
 
 			if (panorama === '34.jpg') {
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-398.3457598626258, -29.817333000518882, -7.411376568996783), () => {
-					switchPanorama('33a.jpg');
+					switchPanorama('33.jpg');
 				});
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.6590692605958, -22.49578649889834, -24.058503545982965), () => {
-					switchPanorama('35.jpg');
+					switchPanorama('34a.jpg');
 				});
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-269.0031677305906, -63.11532185599586, 288.68695894939924), () => {
 					switchPanorama('20f.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(460.54, -56.71, -183.50);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(5, 'https://www.youtube.com/embed/mKU3PBr2ARE?si=mv-XKY0gWJtFW6xL');
+				});
+
+				addTextLabel("Kesenian (2)", posMedia);
+
+				// Cek apakah pengunjung datang dari '33.jpg'?
+				if (previousPanorama === '33.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 35
+					// Koordinat diambil dari Vector3 hotspot ke 35 di atas
+					camera.lookAt(397.6590692605958, -22.49578649889834, -24.058503545982965);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(397.6590692605958, -22.49578649889834, -24.058503545982965).normalize();
+					controls.update();
+				}
 			}
 
 			if (panorama === '35.jpg') {
@@ -1384,8 +1530,27 @@
 					switchPanorama('36.jpg');
 				});
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-399.13187000864116, 8.490052798798187, 7.49623871990152), () => {
-					switchPanorama('34.jpg');
+					switchPanorama('34a.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(467.71, -71.60, -159.89);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(5, 'https://www.youtube.com/embed/mKU3PBr2ARE?si=mv-XKY0gWJtFW6xL');
+				});
+
+				addTextLabel("Kesenian (4)", posMedia);
+
+				// Cek apakah pengunjung datang dari '34a.jpg'?
+				if (previousPanorama === '34a.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 36
+					// Koordinat diambil dari Vector3 hotspot ke 36 di atas
+					camera.lookAt(398.97, -18.42, -3.57);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(398.97, -18.42, -3.57).normalize();
+					controls.update();
+				}
 			}
 
 			if (panorama === '36.jpg') {
@@ -1395,6 +1560,25 @@
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(397.53811530027275, -31.35968336446192, -20.86038874718258), () => {
 					switchPanorama('5.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(453.09, -96.27, 185.80);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(5, 'https://www.youtube.com/embed/mKU3PBr2ARE?si=mv-XKY0gWJtFW6xL');
+				});
+
+				addTextLabel("Kesenian (5)", posMedia);
+
+				// Cek apakah pengunjung datang dari '35.jpg'?
+				if (previousPanorama === '35.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 5
+					// Koordinat diambil dari Vector3 hotspot ke 5 di atas
+					camera.lookAt(397.53, -31.35, -20.86);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(397.53, -31.35, -20.86).normalize();
+					controls.update();
+				}
 			}
 
 			if (panorama === '7detail.jpg') {
@@ -1481,16 +1665,35 @@
 				});
 			}
 
-			if (panorama === '33a.jpg') {
+			if (panorama === '34a.jpg') {
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(322.17836355408696, -1.44219067041946, 236.72440626072358), () => {
-					switchPanorama('33.jpg');
+					switchPanorama('34.jpg');
 				});
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-283.6033152186592, -2.238369447094315, -280.96150795074504), () => {
-					switchPanorama('34.jpg');
+					switchPanorama('35.jpg');
 				});
 				addHotspot('images/chevrontilted.png', new THREE.Vector3(-324.2599941537418, -45.75497259227406, 228.46759023700926), () => {
 					switchPanorama('37.jpg');
 				});
+
+				let posMedia = new THREE.Vector3(-226.68, -56.47, -440.88);
+
+				addHotspot('images/video.png', posMedia, () => {
+					showMedia(5, 'https://www.youtube.com/embed/mKU3PBr2ARE?si=mv-XKY0gWJtFW6xL');
+				});
+
+				addTextLabel("Kesenian (3)", posMedia);
+
+				// Cek apakah pengunjung datang dari '34.jpg'?
+				if (previousPanorama === '34.jpg') {
+					// Jika YA, paksa kamera menghadap ke Hotspot 35
+					// Koordinat diambil dari Vector3 hotspot ke 35 di atas
+					camera.lookAt(-283.6033152186592, -2.238369447094315, -280.96150795074504);
+
+					// (Opsional) Update controls target agar rotasi orbit berpusat benar
+					controls.target.set(-283.6033152186592, -2.238369447094315, -280.96150795074504).normalize();
+					controls.update();
+				}
 			}
 
 			if (panorama === '37.jpg') {
@@ -1874,9 +2077,27 @@
 		}
 
 		// 6. SWIPER INITIALIZATION (Untuk Modal Kesenian)
-		var swiper = new Swiper(".mySwiper", {
-			observer: true,         // FIX: Agar swiper jalan saat modal dibuka
-			observeParents: true,   // FIX: Deteksi parent element
+		var swiperKesenian = new Swiper(".mySwiper", {
+			observer: true,
+			observeParents: true,
+			loop: true, 
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+		});
+
+		// --- SWIPER PRODUK (BARU DITAMBAHKAN) ---
+		var swiperProduk = new Swiper(".mySwiperProduk", {
+			observer: true,       // Wajib agar jalan di dalam modal
+			observeParents: true, // Wajib agar jalan di dalam modal
+			slidesPerView: 1,     // Tampilkan 1 produk per slide
+			spaceBetween: 10,
+			loop: true,           // Bisa di-swipe memutar terus
 			navigation: {
 				nextEl: ".swiper-button-next",
 				prevEl: ".swiper-button-prev",
