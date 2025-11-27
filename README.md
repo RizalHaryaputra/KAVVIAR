@@ -63,3 +63,34 @@ KAVVIAR/
 │   └── audio/              # Musik latar & narasi
 └── README.md               # Dokumentasi Proyek
 ```
+
+---
+
+## 🚀 Cara Menjalankan (Local)
+
+1.  **Clone atau Download** repository ini.
+2.  Buka folder proyek menggunakan **VS Code**.
+3.  Pastikan ekstensi **Live Server** sudah terinstal di VS Code.
+4.  Klik kanan pada file `index.html` (yang berada di folder terluar/root), lalu pilih **"Open with Live Server"**.
+5.  Website akan otomatis terbuka di browser (biasanya di alamat `http://127.0.0.1:5500`).
+
+## 🌐 Deployment
+
+Proyek ini sudah dioptimasi untuk layanan hosting statis seperti **Netlify** dan **GitHub Pages**.
+
+**Pengaturan Penting saat Deploy:**
+* **Root Directory:** Biarkan kosong (`./`) atau set ke *root project* agar Landing Page (halaman sambutan) terbaca pertama kali.
+* **Case Sensitivity:** Server hosting (Linux) sangat sensitif terhadap huruf besar/kecil. Pastikan penulisan nama file di kode (misal `src="js/three.min.js"`) sama persis dengan nama file aslinya.
+
+---
+
+## 📝 Kredit
+
+* **Lokasi:** Desa Wisata Krebet, Bantul, Yogyakarta.
+* **Pengembang:** Rizal Haryaputra
+* **Sumber Aset:**
+    * Panorama: Google Street View / Dokumentasi Pribadi.
+    * Musik: Gamelan Jawa (Royalty Free / Izin Khusus).
+
+---
+*Dibuat sebagai bagian dari upaya digitalisasi pariwisata Indonesia.*
