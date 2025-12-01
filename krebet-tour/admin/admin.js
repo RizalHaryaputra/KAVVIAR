@@ -1,6 +1,6 @@
 // admin/admin.js
 
-import { auth, db, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, query, orderBy, limit, startAfter, endBefore, limitToLast, signOut, onAuthStateChanged } 
+import { auth, db, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, query, orderBy, limit, startAfter, endBefore, limitToLast, signOut, onAuthStateChanged }
     from '../js/firebase-config.js';
 
 // --- KONFIGURASI ---
@@ -53,7 +53,7 @@ async function loadData(colName, tableId, renderFunc, nextBtnId, prevBtnId, dire
     const tableBody = document.getElementById(tableId);
     const nextBtn = document.getElementById(nextBtnId);
     const prevBtn = document.getElementById(prevBtnId);
-    
+
     tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Sedang memuat data...</td></tr>';
 
     try {
@@ -76,7 +76,7 @@ async function loadData(colName, tableId, renderFunc, nextBtnId, prevBtnId, dire
         if (snapshot.empty) {
             tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada data.</td></tr>';
             nextBtn.disabled = true;
-            if(direction === 'first') prevBtn.disabled = true;
+            if (direction === 'first') prevBtn.disabled = true;
             return;
         }
 
@@ -92,8 +92,8 @@ async function loadData(colName, tableId, renderFunc, nextBtnId, prevBtnId, dire
         });
 
         // Atur status tombol Next/Prev
-        prevBtn.disabled = (direction === 'first' || !firstDocs[colName]); 
-        nextBtn.disabled = (snapshot.docs.length < ITEMS_PER_PAGE); 
+        prevBtn.disabled = (direction === 'first' || !firstDocs[colName]);
+        nextBtn.disabled = (snapshot.docs.length < ITEMS_PER_PAGE);
 
     } catch (error) {
         console.error("Load Error:", error);
@@ -112,8 +112,10 @@ function renderProduk(data) {
         <td>Rp ${parseInt(data.harga).toLocaleString()}</td>
         <td>${data.wa}</td>
         <td>
+            <div class="d-flex gap-2 flex-wrap">
             <button class="btn btn-warning btn-sm" onclick="prepareEdit('${data.id}', '${dataStr}', 'produk')"><i class="fa-solid fa-pen"></i></button>
             <button class="btn btn-danger btn-sm" onclick="deleteItem('products', '${data.id}')"><i class="fa-solid fa-trash"></i></button>
+            </div>
         </td>
     </tr>`;
 }
@@ -126,8 +128,10 @@ function renderBerita(data) {
         <td>${data.judul}</td>
         <td>${data.tanggal}</td>
         <td>
+            <div class="d-flex gap-2 flex-wrap">
             <button class="btn btn-warning btn-sm" onclick="prepareEdit('${data.id}', '${dataStr}', 'berita')"><i class="fa-solid fa-pen"></i></button>
             <button class="btn btn-danger btn-sm" onclick="deleteItem('news', '${data.id}')"><i class="fa-solid fa-trash"></i></button>
+            </div>
         </td>
     </tr>`;
 }
@@ -139,8 +143,10 @@ function renderKesenian(data) {
         <td>${data.nama}</td>
         <td><a href="${data.link}" target="_blank">Tonton</a></td>
         <td>
+            <div class="d-flex gap-2 flex-wrap">
             <button class="btn btn-warning btn-sm" onclick="prepareEdit('${data.id}', '${dataStr}', 'kesenian')"><i class="fa-solid fa-pen"></i></button>
             <button class="btn btn-danger btn-sm" onclick="deleteItem('galleries', '${data.id}')"><i class="fa-solid fa-trash"></i></button>
+            </div>
         </td>
     </tr>`;
 }
@@ -152,8 +158,10 @@ function renderKelompok(data) {
         <td>${data.nama}</td>
         <td>${data.deskripsi.substring(0, 50)}...</td>
         <td>
+            <div class="d-flex gap-2 flex-wrap">
             <button class="btn btn-warning btn-sm" onclick="prepareEdit('${data.id}', '${dataStr}', 'kelompok')"><i class="fa-solid fa-pen"></i></button>
             <button class="btn btn-danger btn-sm" onclick="deleteItem('groups', '${data.id}')"><i class="fa-solid fa-trash"></i></button>
+            </div>
         </td>
     </tr>`;
 }
@@ -168,7 +176,7 @@ window.deleteItem = async (colName, id) => {
         try {
             await deleteDoc(doc(db, colName, id));
             alert("Data berhasil dihapus!");
-            location.reload(); 
+            location.reload();
         } catch (error) {
             alert("Gagal hapus: " + error.message);
         }
@@ -177,13 +185,13 @@ window.deleteItem = async (colName, id) => {
 
 window.prepareEdit = (id, dataStr, type) => {
     const data = JSON.parse(decodeURIComponent(dataStr));
-    
+
     if (type === 'produk') {
         document.getElementById('idProduk').value = id;
         document.getElementById('prodNama').value = data.nama;
         document.getElementById('prodHarga').value = data.harga;
         document.getElementById('prodWA').value = data.wa;
-        
+
         document.getElementById('btnSaveProd').innerHTML = '<i class="fa-solid fa-pen m-2"></i> Update Produk';
         document.getElementById('btnCancelProd').classList.remove('d-none');
         document.getElementById('formProduk').scrollIntoView({ behavior: 'smooth' });
@@ -192,7 +200,7 @@ window.prepareEdit = (id, dataStr, type) => {
         document.getElementById('idBerita').value = id;
         document.getElementById('newsJudul').value = data.judul;
         document.getElementById('newsIsi').value = data.isi;
-        
+
         document.getElementById('btnSaveNews').innerHTML = '<i class="fa-solid fa-pen m-2"></i> Update Berita';
         document.getElementById('btnCancelNews').classList.remove('d-none');
         document.getElementById('formBerita').scrollIntoView({ behavior: 'smooth' });
@@ -204,8 +212,8 @@ window.prepareEdit = (id, dataStr, type) => {
 
         document.getElementById('btnSaveArts').innerHTML = '<i class="fa-solid fa-pen m-2"></i> Update Kesenian';
         const btnCancel = document.getElementById('btnCancelArts');
-        if(btnCancel) btnCancel.classList.remove('d-none');
-        
+        if (btnCancel) btnCancel.classList.remove('d-none');
+
         document.getElementById('formKesenian').scrollIntoView({ behavior: 'smooth' });
 
     } else if (type === 'kelompok') {
@@ -216,7 +224,7 @@ window.prepareEdit = (id, dataStr, type) => {
 
         document.getElementById('btnSaveGroup').innerHTML = '<i class="fa-solid fa-pen m-2"></i> Update Kelompok';
         const btnCancel = document.getElementById('btnCancelGroup');
-        if(btnCancel) btnCancel.classList.remove('d-none');
+        if (btnCancel) btnCancel.classList.remove('d-none');
 
         document.getElementById('formKelompok').scrollIntoView({ behavior: 'smooth' });
     }
@@ -230,7 +238,7 @@ function resetForm() {
 const cancelBtns = ['btnCancelProd', 'btnCancelNews', 'btnCancelArts', 'btnCancelGroup'];
 cancelBtns.forEach(btnId => {
     const btn = document.getElementById(btnId);
-    if(btn) {
+    if (btn) {
         btn.addEventListener('click', resetForm);
     }
 });
@@ -327,7 +335,7 @@ document.getElementById('formKesenian').addEventListener('submit', async (e) => 
 
     if (id) await updateDoc(doc(db, "galleries", id), payload);
     else { payload.createdAt = new Date(); await addDoc(collection(db, "galleries"), payload); }
-    
+
     alert("Data Tersimpan!");
     location.reload();
 });
@@ -344,7 +352,7 @@ document.getElementById('formKelompok').addEventListener('submit', async (e) => 
 
     if (id) await updateDoc(doc(db, "groups", id), payload);
     else { payload.createdAt = new Date(); await addDoc(collection(db, "groups"), payload); }
-    
+
     alert("Data Tersimpan!");
     location.reload();
 });
@@ -356,10 +364,8 @@ document.getElementById('prevProduk').onclick = () => loadData('products', 'tabe
 document.getElementById('nextBerita').onclick = () => loadData('news', 'tabelBeritaBody', renderBerita, 'nextBerita', 'prevBerita', 'next');
 document.getElementById('prevBerita').onclick = () => loadData('news', 'tabelBeritaBody', renderBerita, 'nextBerita', 'prevBerita', 'prev');
 
-document.getElementById('nextKesenian').onclick = () => loadData('news', 'tabelKesenianBody', renderKesenian, 'nextKesenian', 'prevKesenian', 'next');
-document.getElementById('prevKesenian').onclick = () => loadData('news', 'tabelKesenianBody', renderKesenian, 'nextKesenian', 'prevKesenian', 'prev');
+document.getElementById('nextKesenian').onclick = () => loadData('galleries', 'tabelKesenianBody', renderKesenian, 'nextKesenian', 'prevKesenian', 'next');
+document.getElementById('prevKesenian').onclick = () => loadData('galleries', 'tabelKesenianBody', renderKesenian, 'nextKesenian', 'prevKesenian', 'prev');
 
-document.getElementById('nextKelompok').onclick = () => loadData('news', 'tabelKelompokBody', renderKelompok, 'nextKelompok', 'prevKelompok', 'next');
-document.getElementById('prevKelompok').onclick = () => loadData('news', 'tabelKelompokBody', renderKelompok, 'nextKelompok', 'prevKelompok', 'prev');
-
-// ... (Ulangi untuk tab lain jika perlu)
+document.getElementById('nextKelompok').onclick = () => loadData('groups', 'tabelKelompokBody', renderKelompok, 'nextKelompok', 'prevKelompok', 'next');
+document.getElementById('prevKelompok').onclick = () => loadData('groups', 'tabelKelompokBody', renderKelompok, 'nextKelompok', 'prevKelompok', 'prev');
