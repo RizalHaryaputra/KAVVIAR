@@ -29,18 +29,12 @@
     </div>
 
     <script type="module">
-        import { auth, signInWithEmailAndPassword } from '../js/firebase-config.js';
+        import { auth, signInWithEmailAndPassword, onAuthStateChanged } from '../js/firebase-config.js';
 
         onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                window.location.href = "index.html";
-            } else {
-                console.log("Login sebagai:", user.email);
-                // Load data halaman pertama untuk semua tab
-                loadData('products', 'tabelProdukBody', renderProduk, 'nextProduk', 'prevProduk');
-                loadData('news', 'tabelBeritaBody', renderBerita, 'nextBerita', 'prevBerita');
-                loadData('galleries', 'tabelKesenianBody', renderKesenian, 'nextKesenian', 'prevKesenian');
-                loadData('groups', 'tabelKelompokBody', renderKelompok, 'nextKelompok', 'prevKelompok');
+            if (user) {
+                console.log("User sudah login, redirecting...");
+                window.location.href = "dashboard.html";
             }
         });
 

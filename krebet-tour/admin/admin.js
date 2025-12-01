@@ -356,4 +356,10 @@ document.getElementById('prevProduk').onclick = () => loadData('products', 'tabe
 document.getElementById('nextBerita').onclick = () => loadData('news', 'tabelBeritaBody', renderBerita, 'nextBerita', 'prevBerita', 'next');
 document.getElementById('prevBerita').onclick = () => loadData('news', 'tabelBeritaBody', renderBerita, 'nextBerita', 'prevBerita', 'prev');
 
+document.getElementById('nextKesenian').onclick = () => loadData('news', 'tabelKesenianBody', renderKesenian, 'nextKesenian', 'prevKesenian', 'next');
+document.getElementById('prevKesenian').onclick = () => loadData('news', 'tabelKesenianBody', renderKesenian, 'nextKesenian', 'prevKesenian', 'prev');
+
+document.getElementById('nextKelompok').onclick = () => loadData('news', 'tabelKelompokBody', renderKelompok, 'nextKelompok', 'prevKelompok', 'next');
+document.getElementById('prevKelompok').onclick = () => loadData('news', 'tabelKelompokBody', renderKelompok, 'nextKelompok', 'prevKelompok', 'prev');
+
 // ... (Ulangi untuk tab lain jika perlu)
