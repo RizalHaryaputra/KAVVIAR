@@ -7,147 +7,214 @@
     <title>Dashboard Admin KAVVIAR</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .img-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .btn-page {
+            min-width: 100px;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
 
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark bg-dark sticky-top">
         <div class="container">
             <span class="navbar-brand mb-0 h1">Admin Panel KAVVIAR</span>
             <button id="btnLogout" class="btn btn-danger btn-sm">Keluar</button>
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <ul class="nav nav-tabs" id="adminTabs" role="tablist">
-            <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-produk">Kelola Produk</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-berita">Kelola Berita</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-kesenian">Kelola Kesenian</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-kelompok">Kelompok Seni</button>
-            </li>
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
+                    data-bs-target="#tab-produk">Kelola Produk</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-berita">Kelola
+                    Berita</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-kesenian">Kelola
+                    Kesenian</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-kelompok">Kelompok
+                    Seni</button></li>
         </ul>
 
         <div class="tab-content bg-white p-4 border border-top-0 rounded-bottom shadow-sm">
 
             <div class="tab-pane fade show active" id="tab-produk">
-                <h4>Tambah Produk Baru</h4>
-                <form id="formProduk">
-                    <div class="mb-3">
-                        <label>Nama Produk</label>
-                        <input type="text" id="prodNama" class="form-control" required>
+                <h4 id="titleProduk">Tambah Produk Baru</h4>
+                <form id="formProduk" class="mb-4 border p-3 rounded bg-light">
+                    <input type="hidden" id="idProduk">
+                    <div class="row">
+                        <div class="mb-2">
+                            <label>Nama Produk</label>
+                            <input type="text" id="prodNama" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Harga (Rp)</label>
+                            <input type="number" id="prodHarga" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Link WhatsApp</label>
+                            <input type="text" id="prodWA" class="form-control" placeholder="628123..." required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Foto</label>
+                            <input type="file" id="prodFoto" class="form-control" accept="image/*">
+                            <small class="text-danger d-none" id="infoFotoProd">*Kosongkan jika tidak ganti foto</small>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label>Harga (Rp)</label>
-                        <input type="number" id="prodHarga" class="form-control" required>
+                    <div class="d-flex justify-content-start gap-2">
+                        <button type="submit" class="btn btn-primary mt-2" id="btnSaveProd"><i class="fa-solid fa-save m-2"></i>
+                            Simpan Produk</button>
+                        <button type="button" class="btn btn-secondary d-none mt-2" id="btnCancelProd">Batal</button>
                     </div>
-                    <div class="mb-3">
-                        <label>Foto Produk</label>
-                        <input type="file" id="prodFoto" class="form-control" accept="image/*" required>
-                        <img id="previewProd" class="mt-2 d-none"
-                            style="width: 100px; height: 100px; object-fit: cover;">
-                    </div>
-                    <div class="mb-3">
-                        <label>Link WhatsApp (Format: 628...)</label>
-                        <input type="text" id="prodWA" class="form-control" placeholder="628123456789">
-                    </div>
-                    <button type="submit" class="btn btn-success" id="btnSaveProd">
-                        <i class="fa-solid fa-save"></i> Simpan Produk
-                    </button>
                 </form>
+
+                <hr>
+                <h5>Daftar Produk</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>WhatsApp</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelProdukBody"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-dark btn-page" id="prevProduk" disabled>Previous</button>
+                    <button class="btn btn-outline-dark btn-page" id="nextProduk" disabled>Next</button>
+                </div>
             </div>
 
             <div class="tab-pane fade" id="tab-berita">
-                <h4>Tambah Berita Baru</h4>
-                <form id="formBerita">
-                    <div class="mb-3">
+                <h4 id="titleBerita">Tambah Berita Baru</h4>
+                <form id="formBerita" class="mb-4 border p-3 rounded bg-light">
+                    <input type="hidden" id="idBerita">
+                    <div class="mb-2">
                         <label>Judul Berita</label>
                         <input type="text" id="newsJudul" class="form-control" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label>Foto Utama</label>
-                        <input type="file" id="newsFoto" class="form-control" accept="image/*" required>
+                        <input type="file" id="newsFoto" class="form-control" accept="image/*">
+                        <small class="text-danger d-none" id="infoFotoNews">*Kosongkan jika tidak ganti foto</small>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label>Isi Berita</label>
-                        <textarea id="newsIsi" class="form-control" rows="5" required></textarea>
+                        <textarea id="newsIsi" class="form-control" rows="3" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="btnSaveNews">
-                        <i class="fa-solid fa-paper-plane"></i> Terbitkan Berita
-                    </button>
+                    <div class="d-flex justify-content-start gap-2">
+                        <button type="submit" class="btn btn-primary mt-2" id="btnSaveNews"><i
+                                class="fa-solid fa-save m-2"></i>Simpan Berita</button>
+                        <button type="button" class="btn btn-secondary d-none mt-2" id="btnCancelNews">Batal</button>
+                    </div>
                 </form>
+
+                <hr>
+                <h5>Arsip Berita</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Foto</th>
+                                <th>Judul</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelBeritaBody"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-dark btn-page" id="prevBerita" disabled>Previous</button>
+                    <button class="btn btn-outline-dark btn-page" id="nextBerita" disabled>Next</button>
+                </div>
             </div>
 
             <div class="tab-pane fade" id="tab-kesenian">
-                <h4>Tambah Galeri Kesenian</h4>
-                <form id="formKesenian" class="mb-4">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <input type="text" id="artsNama" class="form-control"
-                                placeholder="Nama Kesenian (Cth: Jathilan)" required>
-                        </div>
-                        <div class="col-md-5">
-                            <input type="text" id="artsLink" class="form-control" placeholder="Link Embed Youtube"
-                                required>
-                            <small class="text-muted">Contoh: https://www.youtube.com/embed/...</small>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary w-100" id="btnSaveArts">Simpan</button>
-                        </div>
+                <h4 id="titleKesenian">Tambah Galeri Kesenian</h4>
+                <form id="formKesenian" class="mb-4 border p-3 rounded bg-light">
+                    <input type="hidden" id="idKesenian">
+                    <div class="mb-2">
+                        <label>Nama Kesenian</label>
+                        <input type="text" id="artsNama" class="form-control" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>Link Embed Youtube</label>
+                        <input type="text" id="artsLink" class="form-control"
+                            placeholder="https://www.youtube.com/embed/..." required>
+                    </div>
+                    <div class="d-flex justify-content-start gap-2 mt-2">
+                        <button type="submit" class="btn btn-primary mt-2" id="btnSaveArts"><i class="fa-solid fa-save m-2"></i>Simpan Kesenian</button>
+                        <button type="button" class="btn btn-secondary d-none mt-2" id="btnCancelArts">Batal</button>
                     </div>
                 </form>
 
                 <hr>
                 <h5>Daftar Kesenian</h5>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <thead class="table-dark">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
                             <tr>
                                 <th>Nama Kesenian</th>
-                                <th>Tautan Youtube</th>
-                                <th style="width: 100px;">Aksi</th>
+                                <th>Link Youtube</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelKesenianBody">
-                        </tbody>
+                        <tbody id="tabelKesenianBody"></tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-dark btn-page" id="prevKesenian" disabled>Previous</button>
+                    <button class="btn btn-outline-dark btn-page" id="nextKesenian" disabled>Next</button>
                 </div>
             </div>
 
             <div class="tab-pane fade" id="tab-kelompok">
-                <h4>Tambah Kelompok Seni</h4>
-                <form id="formKelompok" class="mb-4">
+                <h4 id="titleKelompok">Tambah Kelompok Seni</h4>
+                <form id="formKelompok" class="mb-4 border p-3 rounded bg-light">
+                    <input type="hidden" id="idKelompok">
                     <div class="mb-2">
-                        <label>Nama Kelompok/Sanggar</label>
+                        <label>Nama Kelompok</label>
                         <input type="text" id="groupNama" class="form-control" required>
                     </div>
                     <div class="mb-2">
-                        <label>Deskripsi Singkat / Alamat</label>
+                        <label>Deskripsi</label>
                         <textarea id="groupDesc" class="form-control" rows="2" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-success" id="btnSaveGroup">Simpan Kelompok</button>
+                    <div class="d-flex justify-content-start gap-2 mt-2">
+                        <button type="submit" class="btn btn-primary mt-2" id="btnSaveGroup"><i class="fa-solid fa-save m-2"></i>Simpan Kelompok</button>
+                        <button type="button" class="btn btn-secondary d-none mt-2" id="btnCancelGroup">Batal Edit</button>
+                    </div>
                 </form>
 
                 <hr>
-                <h5>Daftar Kelompok Seni</h5>
+                <h5>Daftar Kelompok</h5>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead class="table-success">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-warning">
                             <tr>
                                 <th>Nama Kelompok</th>
                                 <th>Deskripsi</th>
-                                <th style="width: 100px;">Aksi</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelKelompokBody">
-                        </tbody>
+                        <tbody id="tabelKelompokBody"></tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-dark btn-page" id="prevKelompok" disabled>Previous</button>
+                    <button class="btn btn-outline-dark btn-page" id="nextKelompok" disabled>Next</button>
                 </div>
             </div>
 
@@ -155,9 +222,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script type="module" src="admin.js"></script>
-
 </body>
 
 </html>

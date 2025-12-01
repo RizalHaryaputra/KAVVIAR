@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc }
+import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc, query, orderBy, limit, startAfter, endBefore, limitToLast }
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -20,5 +20,6 @@ const db = getFirestore(app);
 export {
     auth, db,
     signInWithEmailAndPassword, signOut, onAuthStateChanged,
-    collection, getDocs, addDoc, doc, deleteDoc, updateDoc
+    collection, getDocs, addDoc, doc, deleteDoc, updateDoc,
+    query, orderBy, limit, startAfter, endBefore, limitToLast
 };
