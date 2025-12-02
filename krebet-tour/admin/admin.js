@@ -1,7 +1,22 @@
-// admin/admin.js
-
 import { auth, db, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, query, orderBy, limit, startAfter, endBefore, limitToLast, signOut, onAuthStateChanged }
     from '../js/firebase-config.js';
+
+// --- INISIALISASI TINYMCE ---
+tinymce.init({
+    selector: '#newsIsi', // Target ke ID textarea
+    height: 300,
+    menubar: false,
+    plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+        'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+});
 
 // --- KONFIGURASI ---
 const CLOUD_NAME = "dothvi6d9"; // Ganti jika berbeda
@@ -125,13 +140,14 @@ function renderBerita(data) {
     return `
     <tr>
         <td><img src="${data.foto || 'https://via.placeholder.com/50'}" class="img-thumb" style="width:50px; height:50px; object-fit:cover;"></td>
-        <td>${data.judul}</td>
+        <td>
+            <strong>${data.judul}</strong><br>
+            <small class="text-muted"><i class="fa-solid fa-user"></i> ${data.penulis || 'Admin'}</small>
+        </td>
         <td>${data.tanggal}</td>
         <td>
-            <div class="d-flex gap-2 flex-wrap">
             <button class="btn btn-warning btn-sm" onclick="prepareEdit('${data.id}', '${dataStr}', 'berita')"><i class="fa-solid fa-pen"></i></button>
             <button class="btn btn-danger btn-sm" onclick="deleteItem('news', '${data.id}')"><i class="fa-solid fa-trash"></i></button>
-            </div>
         </td>
     </tr>`;
 }
@@ -199,9 +215,12 @@ window.prepareEdit = (id, dataStr, type) => {
     } else if (type === 'berita') {
         document.getElementById('idBerita').value = id;
         document.getElementById('newsJudul').value = data.judul;
-        document.getElementById('newsIsi').value = data.isi;
+        document.getElementById('newsPenulis').value = data.penulis || '';
 
-        document.getElementById('btnSaveNews').innerHTML = '<i class="fa-solid fa-pen m-2"></i> Update Berita';
+        // ISI KONTEN KE TINYMCE
+        tinymce.get('newsIsi').setContent(data.isi);
+
+        document.getElementById('btnSaveNews').innerHTML = '<i class="fa-solid fa-pen"></i> Update Berita';
         document.getElementById('btnCancelNews').classList.remove('d-none');
         document.getElementById('formBerita').scrollIntoView({ behavior: 'smooth' });
 
@@ -292,6 +311,16 @@ document.getElementById('formBerita').addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = document.getElementById('idBerita').value;
     const btn = document.getElementById('btnSaveNews');
+
+    // AMBIL DATA DARI TINYMCE
+    const content = tinymce.get('newsIsi').getContent();
+
+    // Validasi (Cek versi teks polosnya kosong atau tidak)
+    if (tinymce.get('newsIsi').getContent({ format: 'text' }).trim().length === 0) {
+        alert("Isi berita tidak boleh kosong!");
+        return;
+    }
+
     btn.disabled = true; btn.innerText = "Memproses...";
 
     try {
@@ -301,7 +330,8 @@ document.getElementById('formBerita').addEventListener('submit', async (e) => {
 
         const payload = {
             judul: document.getElementById('newsJudul').value,
-            isi: document.getElementById('newsIsi').value,
+            penulis: document.getElementById('newsPenulis').value,
+            isi: content, // Gunakan konten dari TinyMCE
             updatedAt: new Date()
         };
         if (fotoUrl) payload.foto = fotoUrl;
@@ -320,6 +350,7 @@ document.getElementById('formBerita').addEventListener('submit', async (e) => {
     } catch (err) {
         alert(err.message);
         btn.disabled = false;
+        btn.innerHTML = 'Terbitkan';
     }
 });
 
