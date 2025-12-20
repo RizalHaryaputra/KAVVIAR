@@ -6,43 +6,45 @@
 
 ## ✨ Fitur Utama
 
-### 🏠 Halaman Depan (Landing Page)
-- **Cinematic Intro:** Latar belakang video *full-screen* dengan overlay gelap yang elegan.
-- **Smooth Animation:** Animasi masuk (*fade-in*) pada judul dan tombol aksi.
-- **Navigasi:** Tombol "Mulai Jelajah" yang mengarahkan pengguna masuk ke area Virtual Tour.
+### 🌍 1. Virtual Tour 360° (Frontend)
+- **Immersive Experience:** Menjelajahi 30+ titik lokasi desa dengan panorama 360 derajat.
+- **Dynamic Data:** Data Produk, Video Kesenian, dan Berita diambil langsung dari *Cloud Database* (Firebase).
+- **Interactive Hotspots:**
+  - **Info Spots:** Popup multimedia (Gambar + Audio Narasi).
+  - **Navigation Spots:** Perpindahan lokasi yang mulus (*smooth transition*).
+- **Smart Audio:** Musik latar Gamelan yang otomatis *fade-out* saat video atau narasi diputar.
+- **Mobile Optimized:** Kontrol sentuh yang responsif, *lazy loading* gambar, dan memori yang efisien untuk HP (Android/iOS).
+- **Fitur Lengkap:** Zoom In/Out, Auto-Rotate, Mini Map, dan Fullscreen mode.
 
-### 🔄 Virtual Tour 360°
-- **Interaksi Penuh:** Pengguna dapat melihat sekeliling (360 derajat) menggunakan mouse (PC) atau sentuhan jari (HP).
-- **Hotspot Navigasi:** Ikon panah interaktif dengan animasi *bouncing* untuk berpindah lokasi.
-- **Efek Transisi:** Perpindahan antar lokasi (*scene*) yang halus dengan efek *fading*.
-- **Smart Zoom:** Efek *Zoom-Out* sinematik saat pertama kali masuk ke lokasi.
-
-### 💡 Fitur Interaktif & Multimedia
-- **Menu Overlay Modern:** Navbar transparan (*Glassmorphism*) yang berisi menu Profil, Galeri, dan Produk.
-- **Modal Informasi:**
-  - **Profil:** Info pengurus dan kelompok seni menggunakan sistem *Tab*.
-  - **Galeri Kesenian:** Slider video YouTube/Lokal yang bisa digeser (*Swipe*).
-  - **Katalog Produk:** Tampilan produk dengan gambar besar dan tombol **"Pesan via WhatsApp"**.
-- **Multimedia Pop-up:** Hotspot khusus yang dapat menampilkan gambar dan audio narasi bersamaan.
-- **Audio Cerdas:** Musik latar (Gamelan) otomatis mengecil/berhenti saat video/narasi diputar dan menyala kembali setelah selesai.
-
-### 🛠️ Kontrol Pengguna
-- Tombol Zoom In/Out  
-- Auto-Rotate  
-- Fullscreen  
-- **Peta Lokasi:** Tombol untuk menampilkan/menyembunyikan peta Google Maps.  
-- **Kontrol Audio:** Tombol *Mute/Unmute* musik latar.
+### ⚙️ 2. Admin Dashboard (Backend)
+Halaman khusus pengelola untuk memanajemen konten website:
+- **Secure Login:** Sistem autentikasi admin yang aman.
+- **Manajemen Berita (Blog):**
+  - Tulis berita dengan **Rich Text Editor (TinyMCE)** (Bold, Italic, List, dll).
+  - Upload foto berita otomatis ke Cloudinary.
+- **Manajemen Produk (E-Catalog):**
+  - Tambah/Edit/Hapus produk kerajinan.
+  - Integrasi tombol WhatsApp otomatis ke nomor pengrajin.
+- **Manajemen Galeri & Profil:**
+  - Kelola video kesenian (YouTube Link) dan data kelompok seni.
+- **Real-time Updates:** Perubahan di admin langsung tampil di halaman depan detik itu juga.
 
 ---
 
 ## 🔧 Teknologi yang Digunakan
 
-- **Core:** HTML5, CSS3, JavaScript (Vanilla)  
-- **3D Engine:** [Three.js](https://threejs.org/)  
-- **UI Framework:** [Bootstrap 5](https://getbootstrap.com/)  
-- **Sliders:** [Swiper.js](https://swiperjs.com/)  
-- **Icons:** [FontAwesome 6](https://fontawesome.com/)  
-- **Animations:** [Animate.css](https://animate.style/)
+**Frontend:**
+- **Core:** HTML5, CSS3, JavaScript (ES6+ Modules)
+- **3D Engine:** [Three.js](https://threejs.org/) (Custom Panorama Controls)
+- **UI Framework:** [Bootstrap 5](https://getbootstrap.com/)
+- **Media Sliders:** [Swiper.js](https://swiperjs.com/)
+- **Text Editor:** [TinyMCE](https://www.tiny.cloud/) (Untuk Admin)
+
+**Backend & Cloud Services:**
+- **Database:** [Google Firebase Firestore](https://firebase.google.com/) (NoSQL Realtime Database)
+- **Authentication:** Firebase Auth (Admin Security)
+- **Media Storage:** [Cloudinary](https://cloudinary.com/) (Optimasi & Penyimpanan Gambar)
+- **Hosting:** Vercel / Netlify / GitHub Pages
 
 ---
 
@@ -90,7 +92,6 @@ Proyek ini sudah dioptimasi untuk layanan hosting statis seperti **Netlify** dan
 * **Pengembang:** Rizal Haryaputra
 * **Sumber Aset:**
     * Panorama: Google Street View / Dokumentasi Pribadi.
-    * Musik: Gamelan Jawa (Royalty Free / Izin Khusus).
 
 ---
 *Dibuat sebagai bagian dari upaya digitalisasi pariwisata Indonesia.*
